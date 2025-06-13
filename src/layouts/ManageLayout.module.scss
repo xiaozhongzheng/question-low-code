@@ -1,0 +1,10 @@
+.container1 {
+    display:  flex;
+    &>.left {
+        width: 200px;
+        padding: 20px 30px;
+    }
+    &>.right {
+        flex: 1;
+    }
+}
