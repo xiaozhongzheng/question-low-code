@@ -1,9 +1,12 @@
-import React, { useState, type FC } from 'react';
+import React, { useState, useEffect, useRef, type FC } from 'react';
 import QuestionCard from '@/components/QuestionCard';
 import styles from './Common.module.scss';
 import ListSeatch from '@/components/ListSeatch';
-import {  Spin } from 'antd';
+import { Empty, Spin } from 'antd';
 import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
+import { useSearchParams } from 'react-router-dom';
+import { useDebounceFn, useRequest } from 'ahooks';
+import { getQuestionListApi } from '@/services/question';
 // const defaultList = [
 //     {
 //         id: 'q1',
@@ -31,31 +34,75 @@ import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 //     },
 // ]
 const List: FC = () => {
-    // const [questionList, setQuestionList] = useState(defaultList)
-    // const { data = {}, loading } = useRequest(getQuestionListApi)
-    const {data,loading} = useLoadingQuestionList()
-    console.log(data, 'data')
-    const { list: questionList = [], total = 100 } = data || {}
-    // const addQuestion = () => {
-    //     const id = Math.random().toString().slice(-3)
-    // }
+    const bottomRef = useRef<HTMLDivElement>(null)
+    const [questionList, setQuestionList] = useState<any[]>([])
+    const [searchParams] = useSearchParams()
+    const [page, setPage] = useState(1)
+    const [total, setTotal] = useState(0)
+    const getData = async () => {
+        return await getQuestionListApi({
+            page,
+            pageSize: 10,
+            keyword: searchParams.get('keyword') || ''
+        })
+    }
+    const { loading, run: loadData } = useRequest(getData, {
+        manual: true,
+        onSuccess: (res) => {
+            const { list = [], total } = res
+            setQuestionList([...questionList, ...list])
+            setPage(page + 1)
+            setTotal(total)
+        },
+    });
+
+    const { run: loadMoreData } = useDebounceFn(
+        // 使用防抖来处理滚动事件，即在滚动条停止后0.5s执行里面的代码
+        () => {
+            if (questionList.length < total || questionList.length === 0) {
+                const ele = bottomRef.current // 底部dom元素
+                if (ele == null) return
+                const domRect = ele.getBoundingClientRect()
+                if (domRect == null) return
+                const { bottom } = domRect // 获取该元素到页面顶部的距离
+                console.log(bottom, document.documentElement.clientHeight, 'height')
+                const docHeight = document.documentElement.clientHeight // 获取html的高度，固定不变
+                if (bottom <= docHeight) {
+                    loadData()
+                    console.log('加载更多数据...')
+                }
+            }
+
+        },
+        {
+            wait: 500,
+        },
+    );
+    const handleLoadStatus = () => {
+        if (loading) return <Spin />
+        if (questionList.length === 0) return <Empty description="暂无数据" />
+        if (questionList.length >= total) return '没有更多数据了~'
+        return '正在加载更多数据...'
+    }
+    useEffect(() => {
+        loadMoreData() // 初始化数据
+    }, [searchParams])
+    useEffect(() => {
+        window.addEventListener('scroll', loadMoreData)
+        return () => {
+            window.removeEventListener('scroll', loadMoreData)
+        }
+    }, [searchParams])
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h2>我的问卷</h2>
                 <ListSeatch />
             </div>
-            {
-                loading && (
-                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                        <Spin size="large" tip="Loading" >
-                        </Spin>
-                    </div>
-                )
-            }
+
             <div className={styles.questionListBox}>
                 {
-                    !loading && questionList?.map((item: any) => {
+                    !!questionList.length && questionList?.map((item: any) => {
                         return (
                             <QuestionCard
                                 key={item.id}
@@ -66,7 +113,9 @@ const List: FC = () => {
                 }
             </div>
 
-            <div >底部区域</div>
+            <div ref={bottomRef} className={styles.footer}>
+                {handleLoadStatus()}
+            </div>
         </div>
     )
 }

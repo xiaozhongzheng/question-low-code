@@ -4,7 +4,7 @@ import { Input, Table, Tag, Space, Button, Modal } from 'antd';
 import ListSeatch from '@/components/ListSeatch';
 import { Spin } from 'antd';
 import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
-
+import ListPage from '@/components/ListPage';
 
 const columns = [
   {
@@ -84,7 +84,9 @@ const Trash: FC = () => {
       }
 
 
-      <div >底部区域</div>
+      <div className={styles.footer}>
+        <ListPage total = {total} />
+      </div>
       <Modal
         title="确认彻底删除问卷"
         closable={{ 'aria-label': 'Custom Close Button' }}

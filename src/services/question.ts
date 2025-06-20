@@ -4,7 +4,9 @@ import type { ResDataType } from './request';
 type SearchType = {
     keyword: string, // 搜索框的内容
     isStar: boolean, // 是否标星
-    isDeleated: boolean // 是否放到回收站中
+    isDeleated: boolean, // 是否放到回收站中
+    page: number,
+    pageSize: number
 }
 
 export async function getQuestionApi(id:string): Promise<ResDataType>{

@@ -8,9 +8,9 @@ const Random = Mock.Random;
  * @returns {Array} 返回生成的问题列表
  */
 export function getQuestionList(opt = {}) {
-    const {len = 10,isStar,isDeleted} = opt
+    const { page = 1, pageSize = 10, isStar, isDeleted } = opt
     const list = [];
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < pageSize; i++) {
         list.push({
             id: Random.id(),          // 生成唯一ID
             title: Random.ctitle(),      // 生成随机标题
@@ -21,7 +21,7 @@ export function getQuestionList(opt = {}) {
             isDeleted,                   // 假删除标记
         });
     }
-    
+
     return list;
 }
 

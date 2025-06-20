@@ -33,20 +33,22 @@ export default [
         url: '/api/question',
         method: 'get',
         response(ctx) {
-            const { url = '' } = ctx
+            const { url = '',query = {} } = ctx
             console.log(url, 'url')
-            const isStar = url.includes('isStar=true')
-            const isDeleted = url.includes('isDeleted=true')
+            console.log(ctx.query,'query')
+            const {page,pageSize,isDeleted = false,isStar = false} = query
             return {
                 errno: 0,
                 data: {
                     list: getQuestionList(
                         {
-                            isStar,
-                            isDeleted
+                            isStar: !!isStar,
+                            isDeleted: !!isDeleted,
+                            page: +page,
+                            pageSize: +pageSize
                         }
                     ), // 当前页
-                    total: 100 // 总页数
+                    total: 30 // 总页数
                 }
             };
         }

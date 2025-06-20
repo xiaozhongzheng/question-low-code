@@ -18,7 +18,7 @@ instance.interceptors.response.use(
       }
       throw new Error(msg);
     }
-
+ 
     return data as any; // 返回完整的响应对象而不是只返回data
   },
   err => {

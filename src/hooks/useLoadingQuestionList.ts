@@ -5,11 +5,17 @@ type OptType = {
     isStar?: boolean,
     isDeleted?: boolean
 }
-export const useLoadingQuestionList = (opt: OptType) => {
+export const useLoadingQuestionList = (opt?: OptType) => {
     const [searchParams] = useSearchParams()
     const keyword = searchParams.get('keyword') as string
+    const page = +(searchParams.get('page') || '') || 1
+    const pageSize = +(searchParams.get('pageSize') || '') || 10
+    //  console.log(searchParams,typeof searchParams,'searchParams')
+    
     const getList = async () => {
         const res = await getQuestionListApi({
+            page,
+            pageSize,
             keyword,
             ...opt
         })
