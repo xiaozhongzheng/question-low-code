@@ -3,7 +3,7 @@
     .header,.footer {
         height: 80px;
         line-height: 80px;
-        background-color: pink;
+        background-color: #011425;
         display: flex;
     }
     .header {
@@ -11,5 +11,7 @@
     }
     .main {
         min-height: calc(100vh - 80px - 80px);
+    background-color: #eef0f4;
+
     }
 }

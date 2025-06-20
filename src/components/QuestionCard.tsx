@@ -2,7 +2,7 @@ import React, { useState, type FC } from 'react';
 import styles from './QuestionCard.module.scss';
 import { Button, Space, Tag, Popconfirm, Modal } from 'antd';
 import { EditOutlined, StockOutlined, StarOutlined, CopyOutlined, DeleteOutlined, StarFilled } from '@ant-design/icons';
-
+import { Link } from 'react-router-dom';
 
 type PropsType = {
     id: string,
@@ -11,8 +11,6 @@ type PropsType = {
     isStar: boolean,
     answerCount: number,
     createdAt: string,
-    deleteQuestion?: (id: string) => void,
-    editQuestion?: (id: string) => void,
 }
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
     const { id, title, isPublished, isStar, createdAt, answerCount } = props
@@ -52,13 +50,16 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
             </div>
             <div className={styles.btns}>
                 <Space>
-                    <Button
-                        icon={<EditOutlined />}
-                        type='text'
-                        size='small'
+                    <Link to={`/question/edit/${id}`}>
+                        <Button
+                            icon={<EditOutlined />}
+                            type='text'
+                            size='small'
                         >
-                        编辑问卷
-                    </Button>
+                            编辑问卷
+                        </Button>
+                    </Link>
+
                     <Button
                         icon={<StockOutlined />}
                         type='text'

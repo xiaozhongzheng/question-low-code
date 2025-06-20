@@ -1,16 +1,15 @@
-import React from 'react'
 import styles from './index.module.scss'
 import Canvas from './Canvas'
-import { useParams } from 'react-router-dom'
 import { useTitle } from 'ahooks'
+import { useLoadingQuestion } from '@/hooks/useLoadingQuestion'
 export default function Edit() {
-  const { id = '' } = useParams()
-  useTitle('小穆问卷-我的问卷')
+  const {loading,question} = useLoadingQuestion();
+  useTitle('小穆问卷-编辑问卷')
+  
   return (
     <div className={styles.edit}>
-      {id}
       <header className={styles.head}>
-
+        {loading ? <p>加载中...</p>:<p>{JSON.stringify(question)}</p>}
       </header>
       <main className={styles.main}>
         <div className={styles.left}></div>

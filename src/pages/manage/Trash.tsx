@@ -1,36 +1,11 @@
 import React, { useState, type FC } from 'react'
 import styles from './Common.module.scss';
-import { Input, Empty, Table, Tag } from 'antd';
-import type { GetProps } from 'antd';
-type SearchProps = GetProps<typeof Input.Search>;
-const { Search } = Input;
-import QuestionCard from '@/components/QuestionCard';
-const dataSource = [
-  {
-    id: 'q1',
-    title: '问卷1',
-    isPublished: false,
-    isStar: true,
-    answerCount: 5,
-    createdAt: '3月10日 13:23'
-  },
-  {
-    id: 'q2',
-    title: '问卷2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 15,
-    createdAt: '3月10日 13:23'
-  },
-  {
-    id: 'q3',
-    title: '问卷3',
-    isPublished: false,
-    isStar: false,
-    answerCount: 25,
-    createdAt: '3月10日 13:23'
-  },
-]
+import { Input, Table, Tag, Space, Button, Modal } from 'antd';
+import ListSeatch from '@/components/ListSeatch';
+import { Spin } from 'antd';
+import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
+
+
 const columns = [
   {
     title: '标题',
@@ -63,17 +38,64 @@ const columns = [
   },
 ]
 const Trash: FC = () => {
-  const [questionList, setQuestionList] = useState(dataSource)
+  const { data, loading } = useLoadingQuestionList({ isDeleted: true })
+  const { list: dataSource = [], total = 100 } = data || {}
+  const [selectIds, setSelectIds] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleDelete = () => {
+    alert(`删除${JSON.stringify(selectIds)}`);
 
+  }
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>我的问卷</h2>
-        <Search placeholder="请输入标题..." style={{ width: 300 }} />
+        <h2>回收站</h2>
+        <ListSeatch />
       </div>
-      <Table dataSource={dataSource} columns={columns} />
+      <Space style={{ marginBottom: '16px' }}>
+        <Button type="primary" disabled={!selectIds.length}>恢复</Button>
+        <Button danger disabled={!selectIds.length} onClick={() => setIsModalOpen(true)}>彻底删除</Button>
+      </Space>
+      {
+        loading && (
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Spin size="large" tip="Loading" >
+            </Spin>
+          </div>
+        )
+      }
+      {
+        !loading && (
+          <Table
+            rowKey={(v:any) => v.id}
+            dataSource={dataSource}
+            columns={columns}
+            rowSelection={
+              {
+                type: 'checkbox',
+                onChange: selectedRowKeys => {
+                  console.log('selectedRowKeys', selectedRowKeys)
+                  setSelectIds(selectedRowKeys as string[])
+                }
+              }
+            }
+          />
+        )
+      }
+
 
       <div >底部区域</div>
+      <Modal
+        title="确认彻底删除问卷"
+        closable={{ 'aria-label': 'Custom Close Button' }}
+        open={isModalOpen}
+        onOk={handleDelete}
+        onCancel={() => setIsModalOpen(false)}
+        cancelText="取消"
+        okText="确定"
+      >
+
+      </Modal>
     </div>
   )
 }
