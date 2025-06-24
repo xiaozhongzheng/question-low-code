@@ -3,9 +3,10 @@ import QuestionCard from '@/components/QuestionCard';
 import styles from './Common.module.scss';
 import { Input, Empty } from 'antd';
 import ListSeatch from '@/components/ListSeatch';
-import { Spin } from 'antd';
+// import { Spin } from 'antd';
 import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 import ListPage from '@/components/ListPage';
+import MyLoading from '@/components/MyLoading';
 const Star: FC = () => {
     const { data, loading } = useLoadingQuestionList({ isStar: true })
     const { list: questionList = [], total = 100 } = data || {}
@@ -21,10 +22,7 @@ const Star: FC = () => {
             </div>
             {
                 loading && (
-                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                        <Spin size="large" tip="Loading" >
-                        </Spin>
-                    </div>
+                    <MyLoading />
                 )
             }
             {

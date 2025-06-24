@@ -3,10 +3,11 @@ import QuestionCard from '@/components/QuestionCard';
 import styles from './Common.module.scss';
 import ListSeatch from '@/components/ListSeatch';
 import { Empty, Spin } from 'antd';
-import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
+// import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounceFn, useRequest } from 'ahooks';
 import { getQuestionListApi } from '@/services/question';
+import MyLoading from '@/components/MyLoading';
 // const defaultList = [
 //     {
 //         id: 'q1',
@@ -39,6 +40,7 @@ const List: FC = () => {
     const [searchParams] = useSearchParams()
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
+    const [loading, setLoading] = useState(true)
     const getData = async () => {
         return await getQuestionListApi({
             page,
@@ -46,16 +48,23 @@ const List: FC = () => {
             keyword: searchParams.get('keyword') || ''
         })
     }
-    const { loading, run: loadData } = useRequest(getData, {
-        manual: true,
-        onSuccess: (res) => {
-            const { list = [], total } = res
-            setQuestionList([...questionList, ...list])
-            setPage(page + 1)
-            setTotal(total)
-        },
-    });
-
+    // const { loading = true, run: loadData } = useRequest(getData, {
+    //     manual: true,
+    //     onSuccess: (res) => {
+    //         const { list = [], total } = res
+    //         setQuestionList([...questionList, ...list])
+    //         setPage(page + 1)
+    //         setTotal(total)
+    //     },
+    // });
+    const loadData = async () => {
+        setLoading(true)
+        const { list = [], total } = await getData()
+        setQuestionList([...questionList, ...list])
+        setPage(page + 1)
+        setTotal(total)
+        setLoading(false)
+    }
     const { run: loadMoreData } = useDebounceFn(
         // 使用防抖来处理滚动事件，即在滚动条停止后0.5s执行里面的代码
         () => {
@@ -72,17 +81,16 @@ const List: FC = () => {
                     console.log('加载更多数据...')
                 }
             }
-
         },
         {
             wait: 500,
         },
     );
     const handleLoadStatus = () => {
-        if (loading) return <Spin />
+        if (loading && questionList.length === 0) return <MyLoading />
         if (questionList.length === 0) return <Empty description="暂无数据" />
-        if (questionList.length >= total) return '没有更多数据了~'
-        return '正在加载更多数据...'
+        if (questionList.length >= total) return <div style={{color: 'green'}}>没有更多数据了~~~</div>
+        return <div style={{color: 'blue'}}>正在加载更多数据...</div>
     }
     useEffect(() => {
         loadMoreData() // 初始化数据

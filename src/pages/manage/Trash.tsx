@@ -5,6 +5,7 @@ import ListSeatch from '@/components/ListSeatch';
 import { Spin } from 'antd';
 import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 import ListPage from '@/components/ListPage';
+import MyLoading from '@/components/MyLoading';
 
 const columns = [
   {
@@ -58,35 +59,34 @@ const Trash: FC = () => {
       </Space>
       {
         loading && (
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <Spin size="large" tip="Loading" >
-            </Spin>
-          </div>
+          <MyLoading />
         )
       }
       {
         !loading && (
-          <Table
-            rowKey={(v:any) => v.id}
-            dataSource={dataSource}
-            columns={columns}
-            rowSelection={
-              {
-                type: 'checkbox',
-                onChange: selectedRowKeys => {
-                  console.log('selectedRowKeys', selectedRowKeys)
-                  setSelectIds(selectedRowKeys as string[])
+          <>
+            <Table
+              rowKey={(v: any) => v.id}
+              dataSource={dataSource}
+              columns={columns}
+              rowSelection={
+                {
+                  type: 'checkbox',
+                  onChange: selectedRowKeys => {
+                    console.log('selectedRowKeys', selectedRowKeys)
+                    setSelectIds(selectedRowKeys as string[])
+                  }
                 }
               }
-            }
-          />
+            />
+            <div className={styles.footer}>
+              <ListPage total={total} />
+            </div>
+          </>
+
         )
       }
 
-
-      <div className={styles.footer}>
-        <ListPage total = {total} />
-      </div>
       <Modal
         title="确认彻底删除问卷"
         closable={{ 'aria-label': 'Custom Close Button' }}

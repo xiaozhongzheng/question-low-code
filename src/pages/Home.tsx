@@ -1,7 +1,7 @@
 import React, { useEffect, type FC } from 'react'
 import axios from 'axios';
 import styles from './Home.module.scss';
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 const Home: FC = () => {
   const nav = useNavigate();
