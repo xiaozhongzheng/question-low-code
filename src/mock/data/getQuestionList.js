@@ -8,7 +8,7 @@ const Random = Mock.Random;
  * @returns {Array} 返回生成的问题列表
  */
 export function getQuestionList(opt = {}) {
-    const { page = 1, pageSize = 10, isStar, isDeleted } = opt
+    const { page = 1, pageSize = 5, isStar, isDeleted } = opt
     const list = [];
     for (let i = 0; i < pageSize; i++) {
         list.push({

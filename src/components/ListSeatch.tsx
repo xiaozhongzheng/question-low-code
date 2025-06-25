@@ -2,6 +2,7 @@ import React, { type FC, useState, useEffect } from 'react';
 import { Input } from 'antd';
 import type { GetProps } from 'antd';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useUrlSearchParams } from '@/hooks/useUrlSearchParams';
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
 const ListSeatch: FC = () => {
@@ -10,15 +11,19 @@ const ListSeatch: FC = () => {
     const { pathname } = useLocation()
     const [searchParams] = useSearchParams()
     // console.log(searchParams,'searchParams')
+    const {keyword} = useUrlSearchParams()
     useEffect(() => {
-        setValue(searchParams.get('keyword') || '')
+        setValue(keyword)
     }, [])
     const onSearch: SearchProps['onSearch'] = (value: string) => {
         searchParams.set('page', '1')
-        searchParams.set('pageSize', '10')
+        searchParams.set('pageSize', '5')
+        if(value){
+            searchParams.set('keyword',value)
+        }
         nav({
             pathname,
-            search: value ? `keyword=${value}` : ''
+            search: searchParams.toString()
         })
 
     }

@@ -48,10 +48,19 @@ export default [
                             pageSize: +pageSize
                         }
                     ), // 当前页
-                    total: 30 // 总页数
+                    total: 50 // 总页数
                 }
             };
         }
     },
-
+    {
+        url: '/api/question/:id',
+        method: 'patch',
+        response() {
+            return {
+                errno: 0,
+                
+            };
+        }
+    }
 ];

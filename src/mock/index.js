@@ -8,7 +8,7 @@ async function getRes(fn,ctx){
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(fn(ctx))
-        },1000)
+        },500)
     })
 }
 // 注册 mock 路由

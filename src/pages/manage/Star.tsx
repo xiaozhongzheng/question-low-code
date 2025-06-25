@@ -21,37 +21,31 @@ const Star: FC = () => {
                 <ListSeatch />
             </div>
             {
-                loading && (
+                loading && questionList.length === 0  && (
                     <MyLoading />
                 )
             }
-            {
-                !loading && (
-                    <>
-                        <div className={styles.questionListBox}>
-                            {
-                                questionList.length === 0 && (
-                                    <Empty description="暂无数据" />
-                                )
-                            }
-                            {
-                                questionList.length && questionList.map((item: any) => {
-                                    return (
-                                        <QuestionCard
-                                            key={item.id}
-                                            {...item}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className={styles.footer}>
-                            <ListPage total={total} />
-                        </div>
-                    </>
+            <div className={styles.questionListBox}>
+                {
+                    !loading && questionList.length === 0 && (
+                        <Empty description="暂无数据" />
+                    )
+                }
+                {
+                    !!questionList.length && questionList.map((item: any) => {
+                        return (
+                            <QuestionCard
+                                key={item.id}
+                                {...item}
+                            />
+                        )
+                    })
+                }
+            </div>
+            <div className={styles.footer}>
+                <ListPage total={total} />
+            </div>
 
-                )
-            }
         </div>
     )
 }

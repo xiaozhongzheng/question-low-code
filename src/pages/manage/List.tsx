@@ -41,10 +41,12 @@ const List: FC = () => {
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
     const [loading, setLoading] = useState(true)
+    const [isBottom,setIsBottom] = useState(false) // 是否触底
+
     const getData = async () => {
         return await getQuestionListApi({
             page,
-            pageSize: 10,
+            pageSize: 5,
             keyword: searchParams.get('keyword') || ''
         })
     }
@@ -78,6 +80,7 @@ const List: FC = () => {
                 const docHeight = document.documentElement.clientHeight // 获取html的高度，固定不变
                 if (bottom <= docHeight) {
                     loadData()
+                    setIsBottom(true)
                     console.log('加载更多数据...')
                 }
             }
@@ -89,11 +92,13 @@ const List: FC = () => {
     const handleLoadStatus = () => {
         if (loading && questionList.length === 0) return <MyLoading />
         if (questionList.length === 0) return <Empty description="暂无数据" />
+        if(!isBottom) return <div style={{color: 'green'}}>下划加载更多数据吧~</div>
+
         if (questionList.length >= total) return <div style={{color: 'green'}}>没有更多数据了~~~</div>
         return <div style={{color: 'blue'}}>正在加载更多数据...</div>
     }
     useEffect(() => {
-        loadMoreData() // 初始化数据
+        loadData() // 初始化数据
     }, [searchParams])
     useEffect(() => {
         window.addEventListener('scroll', loadMoreData)

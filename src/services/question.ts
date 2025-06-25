@@ -29,3 +29,9 @@ export async function getQuestionListApi(opt: Partial<SearchType> = {}): Promise
     })) as ResDataType;
     return data;
 }
+
+export async function patchQuestionApi(id:string,opt: {[key:string]: any}): Promise<ResDataType>{
+    const url = `/api/question/${id}`;
+    const data = (await request.patch(url,opt)) as ResDataType;
+    return data;
+}
