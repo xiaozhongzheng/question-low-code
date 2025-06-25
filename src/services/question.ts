@@ -1,5 +1,5 @@
-import request from './request';
-import type { ResDataType } from './request';
+import request from '../utils/request';
+import type { ResDataType } from '../utils/request';
 
 type SearchType = {
     keyword: string, // 搜索框的内容
@@ -34,4 +34,12 @@ export async function patchQuestionApi(id:string,opt: {[key:string]: any}): Prom
     const url = `/api/question/${id}`;
     const data = (await request.patch(url,opt)) as ResDataType;
     return data;
+}
+
+export async function deleteQuestionApi(ids: string[]): Promise<ResDataType>{
+    const url = `/api/question`;
+    const data = await request.delete(url,{
+        data: {ids}
+    });
+    return data as ResDataType;
 }

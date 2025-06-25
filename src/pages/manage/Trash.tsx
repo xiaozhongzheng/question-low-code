@@ -7,7 +7,7 @@ import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 import ListPage from '@/components/ListPage';
 import MyLoading from '@/components/MyLoading';
 import { useRequest } from 'ahooks';
-import { patchQuestionApi } from '@/services/question';
+import { patchQuestionApi,deleteQuestionApi } from '@/services/question';
 const columns = [
   {
     title: '标题',
@@ -47,10 +47,19 @@ const Trash: FC = () => {
   useEffect(() => {
 
   },[])
-  const handleDelete = () => {
-    alert(`删除${JSON.stringify(selectIds)}`);
-
-  }
+ 
+  const {run: handleDelete} = useRequest(async () => {
+    await deleteQuestionApi(selectIds)
+  },{
+    manual: true,
+    debounceWait: 500,
+    onSuccess: () => {
+      message.success('删除成功!')
+      refresh()
+      setIsModalOpen(false)
+      setSelectIds([])
+    }
+  })
   const {run: handleRecover} = useRequest(async () => {
     // 使用for await 类似于 Promise.all 方法，顺序处理axios请求
     for await (const id of selectIds){
@@ -64,6 +73,8 @@ const Trash: FC = () => {
     onSuccess: () => {
       message.success('删除成功~')
       refresh() // 重新获取分页数据
+      setSelectIds([])
+
     }
   })
   return (
@@ -108,7 +119,7 @@ const Trash: FC = () => {
       }
 
       <Modal
-        title="确认彻底删除问卷"
+        title="确认彻底删除问卷吗？"
         closable={{ 'aria-label': 'Custom Close Button' }}
         open={isModalOpen}
         onOk={handleDelete}
@@ -116,7 +127,7 @@ const Trash: FC = () => {
         cancelText="取消"
         okText="确定"
       >
-
+        删除后的数据无法找回噢
       </Modal>
     </div>
   )

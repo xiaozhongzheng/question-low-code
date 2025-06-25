@@ -3,7 +3,8 @@ import { Form, Input, Button, Card, message } from 'antd'
 import { UserOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import type { Rule } from 'antd/es/form'
-
+import { useRequest } from 'ahooks'
+import { registerApi } from '@/services/user'
 interface RegisterForm {
   username: string
   password: string
@@ -19,13 +20,21 @@ const Register: FC = () => {
     try {
       // TODO: 实现注册逻辑
       console.log('注册信息:', values)
-      message.success('注册成功！')
-      navigate('/login')
+      const { username, password, nickname } = values
+      register(username, password, nickname)
     } catch (error) {
       message.error('注册失败，请重试')
     }
   }
-
+  const { run: register } = useRequest(async (username, password, nickname) => {
+    await registerApi(username, password, nickname)
+  }, {
+    manual: true,
+    onSuccess: () => {
+      message.success('注册成功！')
+      navigate('/login')
+    }
+  })
   const validateConfirmPassword: Rule = ({ getFieldValue }) => ({
     validator(_, value) {
       if (!value || getFieldValue('password') === value) {

@@ -1,9 +1,22 @@
 import axios from 'axios';
 import { message } from 'antd';
+import { getToken } from './userToken';
 
 const instance = axios.create({
   timeout: 10 * 1000,
 });
+// 请求拦截器：自动携带 token
+instance.interceptors.request.use(
+  config => {
+    const token = getToken();
+    if (token) {
+      // 如果有 token，则在请求头中携带
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  err => Promise.reject(err)
+);
 
 // response 拦截：统一处理 errno 和 msg
 instance.interceptors.response.use(

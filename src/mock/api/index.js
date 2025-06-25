@@ -1,6 +1,6 @@
-import test from "./test.js";
 import question from './question.js'
+import user from './user.js'
 export default [
-    ...test,
-    ...question
+    ...question,
+    ...user
 ]

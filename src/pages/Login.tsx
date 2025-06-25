@@ -2,7 +2,9 @@ import React, { type FC } from 'react'
 import { Form, Input, Button, Card, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { loginApi } from '@/services/user'
+import { useRequest } from 'ahooks'
+import { setToken } from '@/utils/userToken'
 interface LoginForm {
   username: string
   password: string
@@ -11,13 +13,25 @@ interface LoginForm {
 const Login: FC = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
-
+  const { run: login } = useRequest(async (values) => {
+    const { username, password } = values || {}
+    return await loginApi(username, password)
+  }, {
+    manual: true,
+    onSuccess: (res) => {
+      console.log(res, 'res')
+      const {token} = res
+      setToken(token)
+      message.success('登录成功！')
+      navigate('/manage/list')
+    }
+  })
   const onFinish = async (values: LoginForm) => {
     try {
       // TODO: 实现登录逻辑
       console.log('登录信息:', values)
-      message.success('登录成功！')
-      navigate('/manage/list')
+      login(values)
+
     } catch (error) {
       message.error('登录失败，请重试')
     }

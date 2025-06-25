@@ -62,5 +62,15 @@ export default [
                 
             };
         }
-    }
+    },
+    {
+        url: '/api/question',
+        method: 'delete',
+        response() {
+            return {
+                errno: 0,
+                
+            };
+        }
+    },
 ];
