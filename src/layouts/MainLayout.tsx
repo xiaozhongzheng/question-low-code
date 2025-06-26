@@ -4,19 +4,23 @@ import { Flex, Layout } from 'antd';
 import styles from './MainLayout.module.scss';
 import Logo from '@/components/Logo';
 import UserInfo from '@/components/UserInfo';
-
+import { useLoadUserData } from '@/hooks/useLoadUserData';
 const { Header, Footer, Content } = Layout;
 const MainLayout: FC = () => {
+  const { waitingUserData } = useLoadUserData()
   return (
     <Layout className={styles.container}>
-        <Header className={styles.header}>
-          <Logo />
-          <UserInfo />
-        </Header>
-        <Content className={styles.main}>
-            <Outlet />
-        </Content>
-        <Footer className={styles.footer}>main footer</Footer>
+      <Header className={styles.header}>
+        <Logo />
+        <UserInfo />
+      </Header>
+      <Content className={styles.main}>
+        {
+          !waitingUserData &&
+          <Outlet />
+        }
+      </Content>
+      <Footer className={styles.footer}>main footer</Footer>
     </Layout>
   )
 }
