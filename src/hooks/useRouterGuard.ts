@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useGetUserInfo } from "./useGetUserInfo"
 import { useLocation, useNavigate } from "react-router-dom"
+import { message } from "antd"
 
 /**
  * 自定义路由守卫hooks
@@ -27,6 +28,7 @@ export const useRouterGuard = (waitingUserData: boolean) => {
 
     // 未登录，访问需要登录的页面时重定向到登录页
     if (!isPublicPage(pathname)) {
+      message.error('请先登录！')
       nav('/login', { replace: true })
     }
     // 未登录，访问公开页面（如登录/注册/首页），允许通过

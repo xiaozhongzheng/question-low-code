@@ -18,4 +18,11 @@ export default defineConfig({
       },
     },
   },
+  css: {
+     preprocessorOptions: {
+      scss: {
+        additionalData: ``, // 不处理 SCSS
+      },
+    },
+  }
 })
