@@ -7,8 +7,8 @@ import { useSelector,useDispatch } from 'react-redux';
 const Canvas: FC = () => {
     // console.log(componentConfigList,'componentConfigList')
     const dispatch = useDispatch()
-    const { componentList,selectedId } = useGetComponentInfo()
-    console.log(componentList, 'componentList')
+    const { componentList,selectedId = '' } = useGetComponentInfo()
+    console.log(componentList,selectedId,'*&&')
     const getComponent = (componentInfo: ComponentInfoType) => {
         const { type, props } = componentInfo
         const componentConfig = getComponentConfigByType(type)
@@ -16,9 +16,9 @@ const Canvas: FC = () => {
         if (!Component) return null
         return <Component {...props} />
     }
-    const handleClick = (id: string) => {
+    const handleClick = (e: MouseEvent,id: string) => {
+        e.stopPropagation() // 阻止冒泡事件
         dispatch(setSelectedId(id))
-        console.log(componentList,'***')
     }
     return (
         <div className={styles.container}>
@@ -33,12 +33,12 @@ const Canvas: FC = () => {
                 </div>
             </div> */}
             {
-                componentList.map((item) => {
+                componentList.length && componentList.map((item) => {
                     const { fe_id } = item
 
                     return (
                         <div
-                        onClick={() => handleClick(fe_id)}
+                        onClick={(e) => handleClick(e,fe_id)}
                          key={fe_id} 
                          className={`${styles.componentsStyle} ${fe_id === selectedId ? styles.selected: ''}`}
                          >

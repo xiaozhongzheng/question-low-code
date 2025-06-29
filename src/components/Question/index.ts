@@ -14,13 +14,27 @@ export type ComponentConfigType = {
     Component: FC<ComponentsPropsType>; // 使用联合类型
     defaultProps: ComponentsPropsType;
 };
-
-// 现在可以混合存放
+// 存放所有组件配置
 export const componentConfigList: ComponentConfigType[] = [
-    QuestionInputConfig, 
-    QuestionTitleConfig  
+    QuestionInputConfig,
+    QuestionTitleConfig
 ];
 
 export const getComponentConfigByType = (type: string) => {
     return componentConfigList.find(item => item.type === type)
 }
+
+export const componentConfigGroup = [
+    {
+        groupName: '文本显示',
+        components: [
+            QuestionTitleConfig
+        ]
+    },
+    {
+        groupName: '用户输入',
+        components: [
+            QuestionInputConfig
+        ]
+    }
+]
