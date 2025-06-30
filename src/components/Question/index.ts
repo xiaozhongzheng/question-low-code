@@ -9,10 +9,11 @@ export type ComponentsPropsType = InputPropsType | TitlePropsType
 // 统一，组件的配置
 
 export type ComponentConfigType = {
-    title: string;
-    type: string;
-    Component: FC<ComponentsPropsType>; // 使用联合类型
-    defaultProps: ComponentsPropsType;
+    title: string,
+    type: string,
+    Component: FC<ComponentsPropsType>, // 使用联合类型
+    PropsComponent: FC<ComponentsPropsType>,
+    defaultProps: ComponentsPropsType
 };
 // 存放所有组件配置
 export const componentConfigList: ComponentConfigType[] = [

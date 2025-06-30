@@ -6,6 +6,7 @@ import MyLoading from '@/components/MyLoading';
 import { useDispatch } from 'react-redux';
 import { setSelectedId } from '@/store/componentsReducer';
 import LeftPanel from './LeftPanel';
+import RightPanel from './RightPanel';
 export default function Edit() {
   const { loading, question } = useLoadingQuestion();
   useTitle('小穆问卷-编辑问卷')
@@ -16,13 +17,16 @@ export default function Edit() {
     console.log('清除id')
     dispatch(setSelectedId(''))
   }
+  const handlePropagation = (e:MouseEvent) => {
+    e.stopPropagation()
+  }
   return (
     <div className={styles.edit}>
       <header className={styles.head}>
         头部
       </header>
       <main className={styles.main} onClick={clearSelect}>
-        <div className={styles.left}>
+        <div className={styles.left} onClick={handlePropagation}>
           <LeftPanel />
         </div>
         <div className={styles.container}>
@@ -30,7 +34,9 @@ export default function Edit() {
             <Canvas />
           </div>
         </div>
-        <div className={styles.right}></div>
+        <div className={styles.right} onClick={handlePropagation}>
+          <RightPanel />
+        </div>
       </main>
     </div>
   )

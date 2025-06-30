@@ -1,6 +1,7 @@
 export type InputPropsType = {
     title?:string,
-    placeholder?: string
+    placeholder?: string,
+    onChange?: (newProps: InputPropsType) => void
 }
 
 export const defaultProps: InputPropsType = {

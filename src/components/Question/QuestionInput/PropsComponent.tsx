@@ -1,16 +1,23 @@
 import React, { useEffect, type FC } from 'react'
 import { type InputPropsType } from './interface'
 import { Form, Input } from 'antd'
-const PropsComponent: FC<InputPropsType> = (Props: InputPropsType) => {
-    const { title, placeholder } = Props
+const PropsComponent: FC<InputPropsType> = (props: InputPropsType) => {
+    const { title, placeholder,onChange } = props
+    console.log(props,'props')
     const [form] = Form.useForm()
     useEffect(()=>{
-        form.setFieldsValue({title,placeholder})
+        form.setFieldsValue({...props})
     },[title,placeholder])
+    const onValuesChange = (values: InputPropsType) => {
+        // console.log(values,'values')
+        onChange?.(values)
+    }
     return (
         <Form
             initialValues={{ title, placeholder}}
             layout="vertical"
+            form={form}
+            onValuesChange={onValuesChange}
         >
             <Form.Item
                 label="标题"
@@ -24,7 +31,7 @@ const PropsComponent: FC<InputPropsType> = (Props: InputPropsType) => {
                 label="Placeholder"
                 name="placeholder"
             >
-                <Input.Password />
+                <Input />
             </Form.Item>
             
         </Form>

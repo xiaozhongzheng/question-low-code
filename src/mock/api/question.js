@@ -19,7 +19,7 @@ export default [
                             fe_id: Random.id(),
                             type: 'questionTitle', // 组件类型，不能重复
                             title: '标题',
-                            props: {text: '个人信息调研',level: 1,isCenter: false}
+                            props: {text: '个人信息调研',level: 1,isCenter: true}
                         },
                         // Input
                         {

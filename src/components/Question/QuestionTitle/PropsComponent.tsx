@@ -2,16 +2,21 @@ import React, { useEffect, type FC } from 'react'
 import { type TitlePropsType } from './interface'
 import { Checkbox, Form, Input, Radio } from 'antd'
 const PropsComponent: FC<TitlePropsType> = (props: TitlePropsType) => {
-    const { text, level, isCenter } = props
-      const [form] = Form.useForm()
-        useEffect(()=>{
-            form.setFieldsValue(props)
-        },[text,level,isCenter])
+    const { text, level, isCenter,onChange } = props
+    const [form] = Form.useForm()
+    useEffect(() => {
+        form.setFieldsValue({ ...props })
+    }, [text, level, isCenter])
+    const onValuesChange = (values: TitlePropsType) => {
+        // console.log(values,'values')
+        onChange?.(values)
+    }
     return (
-
         <Form
             initialValues={{ text, level, isCenter }}
             layout="vertical"
+            form={form}
+            onValuesChange={onValuesChange}
         >
             <Form.Item
                 label="标题内容"
