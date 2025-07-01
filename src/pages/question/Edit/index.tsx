@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setSelectedId } from '@/store/componentsReducer';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
+import EditHeader from './EditHeader';
 export default function Edit() {
   const { loading, question } = useLoadingQuestion();
   useTitle('小穆问卷-编辑问卷')
@@ -23,7 +24,7 @@ export default function Edit() {
   return (
     <div className={styles.edit}>
       <header className={styles.head}>
-        头部
+        <EditHeader></EditHeader>
       </header>
       <main className={styles.main} onClick={clearSelect}>
         <div className={styles.left} onClick={handlePropagation}>
