@@ -19,7 +19,9 @@ const ComponentProps = () => {
         dispatch(updateComponentProps({fe_id,newProps}))
     }
     return (
-        <PropsComponent {...props} onChange={handleChange} />
+        <div >
+            <PropsComponent {...props} onChange={handleChange} />
+        </div>
     )
 }
 

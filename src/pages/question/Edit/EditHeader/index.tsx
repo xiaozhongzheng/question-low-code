@@ -3,6 +3,7 @@ import styles from './index.module.scss'
 import { Space, Button, Typography, Flex } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import EditToolBar from './EditToolBar'
 const { Title } = Typography
 const EditHeader: FC = () => {
     const nav = useNavigate()
@@ -16,7 +17,7 @@ const EditHeader: FC = () => {
                     </Flex>
                 </div>
                 <div className={styles.middle}>
-                    中间
+                    <EditToolBar />
                 </div>
                 <div className={styles.right}>
                     <Space>

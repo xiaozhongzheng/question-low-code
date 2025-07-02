@@ -1,6 +1,11 @@
 .container {
     background-color: #fff;
-    min-height: 100vh;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    .emptyBox {
+        margin: auto;
+    }
     .componentsStyle {
         padding: 12px;
         border: 1px solid #fff;

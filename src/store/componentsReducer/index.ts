@@ -1,10 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { type ComponentsPropsType } from "@/components/Question";
+import { getNextSelected } from "./util";
 
 export type ComponentInfoType = {
     fe_id: string,
     type: string,
     title: string,
+    isHidden: boolean,
     props: ComponentsPropsType
 }
 
@@ -47,6 +49,21 @@ export const componentsSlice = createSlice({
                 ...component.props,
                 ...newProps
             }
+        },
+        deleteComponentById: (state: ComponentsStateType) => {
+            const { componentList, selectedId } = state
+            const newSelected = getNextSelected(selectedId, componentList)
+            console.log(newSelected, 'newSelected')
+            state.selectedId = newSelected
+            const index = componentList.findIndex(c => c.fe_id === selectedId)
+            componentList.splice(index, 1)
+        },
+        changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean }>) => {
+            const { componentList, selectedId } = state
+            const { isHidden } = action.payload
+            const component = componentList.find(c => c.fe_id === selectedId)
+            if (!component) return
+            component.isHidden = isHidden
         }
     }
 })
@@ -55,7 +72,9 @@ export const {
     setComponents,
     setSelectedId,
     addComponents,
-    updateComponentProps
+    updateComponentProps,
+    deleteComponentById,
+    changeComponentHidden
 } = componentsSlice.actions
 
 export default componentsSlice.reducer
