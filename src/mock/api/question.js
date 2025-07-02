@@ -20,6 +20,7 @@ export default [
                             type: 'questionTitle', // 组件类型，不能重复
                             title: '标题',
                             isHidden: false, // 是否隐藏画布中的组件
+                            isLock: false, // 是否锁定组件
                             props: {text: '个人信息调研',level: 1,isCenter: true}
                         },
                         // Input
@@ -28,6 +29,7 @@ export default [
                             type: 'questionInput', // 组件类型，不能重复
                             title: '输入框1',
                             isHidden: false, // 是否隐藏画布中的组件
+                            isLock: false, // 是否锁定组件
                             props: {title: '你的姓名',placeholder: '请输入姓名'}
                         },
                          {
@@ -35,6 +37,7 @@ export default [
                             type: 'questionInput', // 组件类型，不能重复
                             title: '输入框2',
                             isHidden: false, // 是否隐藏画布中的组件
+                            isLock: false, // 是否锁定组件
                             props: {title: '你的电话',placeholder: '请输入电话'}
                         },
                     ]

@@ -1,22 +1,25 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { type ComponentsPropsType } from "@/components/Question";
 import { getNextSelected } from "./util";
-
+import { cloneDeep } from 'lodash'
 export type ComponentInfoType = {
     fe_id: string,
     type: string,
     title: string,
     isHidden: boolean,
+    isLock: boolean,
     props: ComponentsPropsType
 }
 
 export type ComponentsStateType = {
     componentList: Array<ComponentInfoType>,
-    selectedId: string
+    selectedId: string,
+    copyComponent: ComponentInfoType | null
 }
 const INIT_STATE: ComponentsStateType = {
     componentList: [],
-    selectedId: ''
+    selectedId: '',
+    copyComponent: null
 }
 export const componentsSlice = createSlice({
     name: 'components',
@@ -61,10 +64,29 @@ export const componentsSlice = createSlice({
         changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean }>) => {
             const { componentList, selectedId } = state
             const { isHidden } = action.payload
+            if (isHidden) {
+                // 隐藏组件
+                const newSelected = getNextSelected(selectedId, componentList.filter(c => !c.isHidden))
+                state.selectedId = newSelected
+            }
+
             const component = componentList.find(c => c.fe_id === selectedId)
             if (!component) return
             component.isHidden = isHidden
-        }
+        },
+        changeComponentLock: (state: ComponentsStateType) => {
+            const { componentList, selectedId } = state
+            const component = componentList.find(c => c.fe_id === selectedId)
+            if (!component) return
+            component.isLock = !component.isLock 
+        },
+        copySelectComponent:(state: ComponentsStateType) => {
+            const { componentList, selectedId } = state
+            const component = componentList.find(c => c.fe_id === selectedId)
+            if(!component) return 
+            state.copyComponent = {...cloneDeep(component)}
+        },
+       
     }
 })
 
@@ -74,7 +96,9 @@ export const {
     addComponents,
     updateComponentProps,
     deleteComponentById,
-    changeComponentHidden
+    changeComponentHidden,
+    changeComponentLock,
+    copySelectComponent
 } = componentsSlice.actions
 
 export default componentsSlice.reducer

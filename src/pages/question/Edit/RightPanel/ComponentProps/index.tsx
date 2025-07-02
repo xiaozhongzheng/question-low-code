@@ -10,7 +10,7 @@ const ComponentProps = () => {
     const dispatch = useDispatch()
     const { selectComponent } = useGetComponentInfo()
     if(!selectComponent) return <NoProps />
-    const {type,props,fe_id} = selectComponent
+    const {type,props,fe_id,isLock = false} = selectComponent
     const componentConfig = getComponentConfigByType(type)
     if(!componentConfig) return <NoProps />
     const {PropsComponent} = componentConfig
@@ -20,7 +20,7 @@ const ComponentProps = () => {
     }
     return (
         <div >
-            <PropsComponent {...props} onChange={handleChange} />
+            <PropsComponent {...props} onChange={handleChange} disabled={isLock} />
         </div>
     )
 }

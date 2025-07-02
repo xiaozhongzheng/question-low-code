@@ -2,7 +2,7 @@ import React, { useEffect, type FC } from 'react'
 import { type TitlePropsType } from './interface'
 import { Checkbox, Form, Input, Radio } from 'antd'
 const PropsComponent: FC<TitlePropsType> = (props: TitlePropsType) => {
-    const { text, level, isCenter,onChange } = props
+    const { text, level, isCenter,onChange,disabled } = props
     const [form] = Form.useForm()
     useEffect(() => {
         form.setFieldsValue({ ...props })
@@ -17,6 +17,7 @@ const PropsComponent: FC<TitlePropsType> = (props: TitlePropsType) => {
             layout="vertical"
             form={form}
             onValuesChange={onValuesChange}
+            disabled={disabled}
         >
             <Form.Item
                 label="标题内容"

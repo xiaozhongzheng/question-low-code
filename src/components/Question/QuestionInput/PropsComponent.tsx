@@ -2,7 +2,7 @@ import React, { useEffect, type FC } from 'react'
 import { type InputPropsType } from './interface'
 import { Form, Input } from 'antd'
 const PropsComponent: FC<InputPropsType> = (props: InputPropsType) => {
-    const { title, placeholder,onChange } = props
+    const { title, placeholder,onChange,disabled } = props
     console.log(props,'props')
     const [form] = Form.useForm()
     useEffect(()=>{
@@ -18,6 +18,7 @@ const PropsComponent: FC<InputPropsType> = (props: InputPropsType) => {
             layout="vertical"
             form={form}
             onValuesChange={onValuesChange}
+            disabled={disabled}
         >
             <Form.Item
                 label="标题"

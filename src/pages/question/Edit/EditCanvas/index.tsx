@@ -44,13 +44,13 @@ const Canvas: FC = () => {
                 componentList.length > 0 && componentList
                 .filter(item => !item.isHidden)
                 .map((item) => {
-                    const { fe_id } = item
+                    const { fe_id,isLock = false } = item
 
                     return (
                         <div
                             onClick={(e) => handleClick(e, fe_id)}
                             key={fe_id}
-                            className={`${styles.componentsStyle} ${fe_id === selectedId ? styles.selected : ''}`}
+                            className={`${styles.componentsStyle} ${fe_id === selectedId ? styles.selected : ''} ${isLock?styles.locked:''}`}
                         >
                             <div className={styles.disabledElement}>
                                 {
