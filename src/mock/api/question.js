@@ -13,7 +13,7 @@ export default [
                 data: {
                     id: Random.id(),
                     title: Random.ctitle(),
-                    componentList:[
+                    componentList: [
                         // Title
                         {
                             fe_id: Random.id(),
@@ -21,7 +21,7 @@ export default [
                             title: '标题',
                             isHidden: false, // 是否隐藏画布中的组件
                             isLock: false, // 是否锁定组件
-                            props: {text: '个人信息调研',level: 1,isCenter: true}
+                            props: { text: '个人信息调研', level: 1, isCenter: true }
                         },
                         // Input
                         {
@@ -30,15 +30,23 @@ export default [
                             title: '输入框1',
                             isHidden: false, // 是否隐藏画布中的组件
                             isLock: false, // 是否锁定组件
-                            props: {title: '你的姓名',placeholder: '请输入姓名'}
+                            props: { title: '你的姓名', placeholder: '请输入姓名' }
                         },
-                         {
+                        {
                             fe_id: Random.id(),
                             type: 'questionInput', // 组件类型，不能重复
                             title: '输入框2',
                             isHidden: false, // 是否隐藏画布中的组件
                             isLock: false, // 是否锁定组件
-                            props: {title: '你的电话',placeholder: '请输入电话'}
+                            props: { title: '你的电话', placeholder: '请输入电话' }
+                        },
+                        {
+                            fe_id: Random.id(),
+                            type: 'questionParagraph', // 组件类型，不能重复
+                            title: '段落内容',
+                            isHidden: false, // 是否隐藏画布中的组件
+                            isLock: false, // 是否锁定组件
+                            props: { text: '这是一个低代码项目' }
                         },
                     ]
                 }
@@ -61,10 +69,10 @@ export default [
         url: '/api/question',
         method: 'get',
         response(ctx) {
-            const { url = '',query = {} } = ctx
+            const { url = '', query = {} } = ctx
             console.log(url, 'url')
-            console.log(ctx.query,'query')
-            const {page,pageSize,isDeleted = false,isStar = false} = query
+            console.log(ctx.query, 'query')
+            const { page, pageSize, isDeleted = false, isStar = false } = query
             return {
                 errno: 0,
                 data: {
@@ -87,7 +95,7 @@ export default [
         response() {
             return {
                 errno: 0,
-                
+
             };
         }
     },
@@ -97,7 +105,7 @@ export default [
         response() {
             return {
                 errno: 0,
-                
+
             };
         }
     },

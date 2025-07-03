@@ -4,7 +4,7 @@ export type TitlePropsType = {
     level?: 1 | 2 | 3 | 4 | 5,
     isCenter?: boolean,
     onChange?: (newProps: TitlePropsType) => void
-    disabled: boolean
+    disabled?: boolean
 }
 
 export const defaultProps: TitlePropsType = {

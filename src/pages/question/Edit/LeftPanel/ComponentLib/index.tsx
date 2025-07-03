@@ -8,6 +8,7 @@ import { nanoid } from '@reduxjs/toolkit'
 const { Title } = Typography
 const ComponentLib: FC = () => {
     const dispatch = useDispatch()
+    console.log(componentConfigGroup,'componentConfigGroup')
     const getComponent = (component: ComponentConfigType) => {
         const { Component, type, title, defaultProps } = component
         const handleAdd = (e: MouseEvent) => {
@@ -16,6 +17,8 @@ const ComponentLib: FC = () => {
                 fe_id: nanoid(),
                 type,
                 title,
+                isLock: false,
+                isHidden: false,
                 props: defaultProps
             }))
         }
@@ -35,7 +38,7 @@ const ComponentLib: FC = () => {
                     const { groupName, components } = item
                     return (
                         <div key={index} className={styles.item}>
-                            <Title level={5}>{groupName}</Title>
+                            <Title style={{color: 'skyblue'}} level={4}>{groupName}</Title>
                             {
                                 components.map(c => getComponent(c as ComponentConfigType))
                             }

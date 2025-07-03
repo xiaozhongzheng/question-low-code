@@ -19,6 +19,7 @@ const PropsComponent: FC<InputPropsType> = (props: InputPropsType) => {
             form={form}
             onValuesChange={onValuesChange}
             disabled={disabled}
+            size='middle'
         >
             <Form.Item
                 label="标题"

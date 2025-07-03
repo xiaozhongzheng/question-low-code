@@ -4,6 +4,7 @@ import { getComponentConfigByType } from '@/components/Question';
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo';
 import { setSelectedId, type ComponentInfoType } from '@/store/componentsReducer';
 import { useSelector, useDispatch } from 'react-redux';
+import { useBindCanvasKeyPress } from '@/hooks/useBindCanvasKeyPress';
 import { Empty } from 'antd';
 const Canvas: FC = () => {
     // console.log(componentConfigList,'componentConfigList')
@@ -21,6 +22,8 @@ const Canvas: FC = () => {
         e.stopPropagation() // 阻止冒泡事件
         dispatch(setSelectedId(id))
     }
+   
+    useBindCanvasKeyPress()  // 监听键盘事件
     return (
         <div className={styles.container}>
             {/* <div className={styles.componentsStyle}>

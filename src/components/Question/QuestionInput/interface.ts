@@ -2,7 +2,7 @@ export type InputPropsType = {
     title?:string,
     placeholder?: string,
     onChange?: (newProps: InputPropsType) => void,
-    disabled: boolean
+    disabled?: boolean
 }
 
 export const defaultProps: InputPropsType = {

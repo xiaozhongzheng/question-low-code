@@ -2,6 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { type ComponentsPropsType } from "@/components/Question";
 import { getNextSelected } from "./util";
 import { cloneDeep } from 'lodash'
+import { message } from "antd";
 export type ComponentInfoType = {
     fe_id: string,
     type: string,
@@ -55,14 +56,23 @@ export const componentsSlice = createSlice({
         },
         deleteComponentById: (state: ComponentsStateType) => {
             const { componentList, selectedId } = state
+            if (!selectedId) {
+                message.warning('请先选择组件！')
+                return
+            }
             const newSelected = getNextSelected(selectedId, componentList)
             console.log(newSelected, 'newSelected')
             state.selectedId = newSelected
             const index = componentList.findIndex(c => c.fe_id === selectedId)
+            console.log(index, 'index')
             componentList.splice(index, 1)
         },
         changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean }>) => {
             const { componentList, selectedId } = state
+            if (!selectedId) {
+                message.warning('请先选择组件！')
+                return
+            }
             const { isHidden } = action.payload
             if (isHidden) {
                 // 隐藏组件
@@ -76,17 +86,36 @@ export const componentsSlice = createSlice({
         },
         changeComponentLock: (state: ComponentsStateType) => {
             const { componentList, selectedId } = state
+            if (!selectedId) {
+                message.warning('请先选择组件！')
+                return
+            }
             const component = componentList.find(c => c.fe_id === selectedId)
             if (!component) return
-            component.isLock = !component.isLock 
+            component.isLock = !component.isLock
         },
-        copySelectComponent:(state: ComponentsStateType) => {
+        copySelectComponent: (state: ComponentsStateType) => {
             const { componentList, selectedId } = state
+            if (!selectedId) {
+                message.warning('请先选择组件！')
+                return
+            }
             const component = componentList.find(c => c.fe_id === selectedId)
-            if(!component) return 
-            state.copyComponent = {...cloneDeep(component)}
+            if (!component) return
+            state.copyComponent = { ...cloneDeep(component) }
         },
-       
+        toPreComponent: (state: ComponentsStateType) => {
+            const {componentList,selectedId} = state
+            const index = componentList.findIndex(c => c.fe_id === selectedId)
+            if(index <= 0) return // 未选择组件或者当前组件在第一个时，不做任何处理
+            state.selectedId = componentList[index - 1].fe_id  
+        },
+        toNextComponent: (state: ComponentsStateType) => {
+            const {componentList,selectedId} = state
+            const index = componentList.findIndex(c => c.fe_id === selectedId)
+            if(index < 0 || index === componentList.length - 1) return // 未选择组件或者当前组件在最后一个时，不做任何处理
+            state.selectedId = componentList[index + 1].fe_id  
+        },
     }
 })
 
@@ -98,7 +127,9 @@ export const {
     deleteComponentById,
     changeComponentHidden,
     changeComponentLock,
-    copySelectComponent
+    copySelectComponent,
+    toPreComponent,
+    toNextComponent
 } = componentsSlice.actions
 
 export default componentsSlice.reducer

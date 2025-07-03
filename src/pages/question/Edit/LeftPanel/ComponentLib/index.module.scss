@@ -1,28 +1,28 @@
 .main {
-    padding: 0 16px;
     .item {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-top: 20px;
-        // border-bottom: 1px solid pink;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 16px;
-        &:last-child {
-            border: none;
-        }
+        border: 1px solid skyblue;
+        border-radius: 16px;
+        padding: 16px;
+
         &:first-child {
             margin: 0;
         }
+
         .component {
             padding: 10px;
             border: 1px solid transparent;
             border-radius: 8px;
             cursor: pointer;
+
             &:hover {
                 border-color: pink;
             }
         }
+
         .disabledEvent {
             pointer-events: none;
 

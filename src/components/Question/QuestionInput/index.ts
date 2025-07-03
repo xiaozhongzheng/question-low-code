@@ -1,5 +1,4 @@
 import Component from './Component';
-
 import { defaultProps } from './interface';
 import PropsComponent from './PropsComponent';
 export * from './interface'
