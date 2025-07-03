@@ -2,16 +2,17 @@ import type { FC } from "react";
 import QuestionInputConfig, { type InputPropsType } from "./QuestionInput";
 import QuestionTitleConfig, { type TitlePropsType } from "./QuestionTitle";
 import QuestionParagraphConfig,{type ParagraphPropsType} from "./QuestionParagraph";
+import QuestionRadioConfig,{type RadioPropsType} from './QuestionRadio'
 
-
-export type ComponentsPropsType = InputPropsType | TitlePropsType | ParagraphPropsType
+export type ComponentsPropsType = 
+    InputPropsType | TitlePropsType | ParagraphPropsType | RadioPropsType
 
 // 统一，组件的配置
 export type ComponentConfigType = {
     title: string,
     type: string,
     Component: FC<ComponentsPropsType>, // 使用联合类型
-    PropsComponent: FC<ComponentsPropsType>,
+    PropsComponent?: FC<ComponentsPropsType>,
     defaultProps: ComponentsPropsType
 };
 
@@ -19,7 +20,8 @@ export type ComponentConfigType = {
 export const componentConfigList: ComponentConfigType[] = [
     QuestionInputConfig,
     QuestionTitleConfig,
-    QuestionParagraphConfig
+    QuestionParagraphConfig,
+    // QuestionRadioConfig
 ];
 
 // 根据类型获取组件的配置

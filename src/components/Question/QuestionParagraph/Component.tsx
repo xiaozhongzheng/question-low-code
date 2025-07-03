@@ -8,8 +8,15 @@ const Component: FC<ParagraphPropsType> = (props: ParagraphPropsType) => {
     return (
         <Paragraph style={{ textAlign: isCenter ? 'center' : 'left' }}>
             {
-                text.includes('\n') ? text.split('\n').map(item => {
-                    return <span>{item}<br /></span>
+                text.includes('\n') ? text.split('\n').map((text,index) => {
+                    return (
+                        <span key={index}>
+                            {
+                                index > 0 && <br />
+                            }
+                            {text}
+                        </span>
+                    )
                 }) : text
             }
         </Paragraph>
