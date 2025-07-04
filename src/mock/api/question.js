@@ -34,19 +34,28 @@ export default [
                         },
                         {
                             fe_id: Random.id(),
-                            type: 'questionInput', // 组件类型，不能重复
-                            title: '输入框2',
-                            isHidden: false, // 是否隐藏画布中的组件
-                            isLock: false, // 是否锁定组件
-                            props: { title: '你的电话', placeholder: '请输入电话' }
-                        },
-                        {
-                            fe_id: Random.id(),
                             type: 'questionParagraph', // 组件类型，不能重复
                             title: '段落内容',
                             isHidden: false, // 是否隐藏画布中的组件
                             isLock: false, // 是否锁定组件
                             props: { text: '这是一个低代码项目' }
+                        },
+                        {
+                            fe_id: Random.id(),
+                            type: 'questionRadio', // 组件类型，不能重复
+                            title: '单选',
+                            isHidden: false, // 是否隐藏画布中的组件
+                            isLock: false, // 是否锁定组件
+                            props: {
+                                title: '你的喜好',
+                                options: [
+                                    { label: '打篮球', value: 'item1' },
+                                    { label: '打游戏', value: 'item2' },
+                                    { label: '看电影', value: 'item3' },
+                                ],
+                                value: '',
+                                isVertical: false
+                            }
                         },
                     ]
                 }

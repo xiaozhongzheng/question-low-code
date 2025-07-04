@@ -1,12 +1,14 @@
 type OptionType = {
     label: string,
-    value: string
+    value: string,
 }
 export type RadioPropsType = {
     title?: string,
     options?: OptionType[],
     value?: string,
-    isVertical?: boolean
+    isVertical?: boolean,
+    onChange?: (newProps: RadioPropsType) => void,
+    disabled?: boolean 
 }
 
 export const defaultRadioProps: RadioPropsType = {
@@ -19,3 +21,4 @@ export const defaultRadioProps: RadioPropsType = {
     value: '',
     isVertical: false
 }
+

@@ -5,7 +5,7 @@ import QuestionParagraphConfig,{type ParagraphPropsType} from "./QuestionParagra
 import QuestionRadioConfig,{type RadioPropsType} from './QuestionRadio'
 
 export type ComponentsPropsType = 
-    InputPropsType | TitlePropsType | ParagraphPropsType | RadioPropsType
+    InputPropsType & TitlePropsType & ParagraphPropsType & RadioPropsType
 
 // 统一，组件的配置
 export type ComponentConfigType = {
@@ -21,7 +21,7 @@ export const componentConfigList: ComponentConfigType[] = [
     QuestionInputConfig,
     QuestionTitleConfig,
     QuestionParagraphConfig,
-    // QuestionRadioConfig
+    QuestionRadioConfig
 ];
 
 // 根据类型获取组件的配置
@@ -42,6 +42,12 @@ export const componentConfigGroup = [
         groupName: '用户输入',
         components: [
             QuestionInputConfig
+        ]
+    },
+    {
+        groupName: '用户选择',
+        components: [
+            QuestionRadioConfig
         ]
     }
 ]

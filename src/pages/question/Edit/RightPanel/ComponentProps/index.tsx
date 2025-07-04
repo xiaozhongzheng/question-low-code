@@ -11,17 +11,16 @@ const ComponentProps = () => {
     const { selectComponent } = useGetComponentInfo()
     if(!selectComponent) return <NoProps />
     const {type,props,fe_id,isLock = false} = selectComponent
+    console.log(props,'======props')
     const componentConfig = getComponentConfigByType(type)
     if(!componentConfig) return <NoProps />
-    const {PropsComponent} = componentConfig
+    const {PropsComponent = null} = componentConfig
+    if(!PropsComponent) return null
     const handleChange = (newProps: ComponentsPropsType) => {
-        console.log(newProps,'newProps')
         dispatch(updateComponentProps({fe_id,newProps}))
     }
     return (
-        <div >
-            <PropsComponent {...props} onChange={handleChange} disabled={isLock} />
-        </div>
+        <PropsComponent {...props} onChange={handleChange} disabled={isLock} />
     )
 }
 
