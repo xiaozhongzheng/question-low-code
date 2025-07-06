@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { type ComponentsPropsType } from "@/components/Question";
-import { getNextSelected } from "./util";
+import { getNextSelected } from './util';
 import { cloneDeep } from 'lodash'
 import { message } from "antd";
 export type ComponentInfoType = {
@@ -67,31 +67,43 @@ export const componentsSlice = createSlice({
             console.log(index, 'index')
             componentList.splice(index, 1)
         },
-        changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean }>) => {
-            const { componentList, selectedId } = state
-            if (!selectedId) {
+        changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean, selectId: string }>) => {
+            let newId = action.payload?.selectId || state.selectedId
+            const { componentList } = state
+            if (!newId) {
                 message.warning('请先选择组件！')
                 return
-            }
-            const { isHidden } = action.payload
-            if (isHidden) {
-                // 隐藏组件
-                const newSelected = getNextSelected(selectedId, componentList.filter(c => !c.isHidden))
-                state.selectedId = newSelected
             }
 
-            const component = componentList.find(c => c.fe_id === selectedId)
+            const { isHidden } = action.payload
+            const component = componentList.find(c => c.fe_id === newId)
             if (!component) return
             component.isHidden = isHidden
+            if (isHidden) {
+                // 隐藏组件
+                const newSelected = getNextSelected(newId, componentList.filter(c => !c.isHidden))
+                state.selectedId = newSelected
+                component.isLock = false
+            } else {
+                // 显示组件
+                state.selectedId = newId
+            }
+
+
         },
-        changeComponentLock: (state: ComponentsStateType) => {
-            const { componentList, selectedId } = state
-            if (!selectedId) {
+        changeComponentLock: (state: ComponentsStateType, action: PayloadAction<{ selectId: string }>) => {
+            let newId = action.payload?.selectId || state.selectedId
+            const { componentList } = state
+            if (!newId) {
                 message.warning('请先选择组件！')
                 return
             }
-            const component = componentList.find(c => c.fe_id === selectedId)
+            const component = componentList.find(c => c.fe_id === newId)
             if (!component) return
+            if (component.isHidden) {
+                message.info('隐藏的组件不能被锁定~') // 隐藏的组件不触发lock
+                return
+            }
             component.isLock = !component.isLock
         },
         copySelectComponent: (state: ComponentsStateType) => {
@@ -105,17 +117,24 @@ export const componentsSlice = createSlice({
             state.copyComponent = { ...cloneDeep(component) }
         },
         toPreComponent: (state: ComponentsStateType) => {
-            const {componentList,selectedId} = state
+            const { componentList, selectedId } = state
             const index = componentList.findIndex(c => c.fe_id === selectedId)
-            if(index <= 0) return // 未选择组件或者当前组件在第一个时，不做任何处理
-            state.selectedId = componentList[index - 1].fe_id  
+            if (index <= 0) return // 未选择组件或者当前组件在第一个时，不做任何处理
+            state.selectedId = componentList[index - 1].fe_id
         },
         toNextComponent: (state: ComponentsStateType) => {
-            const {componentList,selectedId} = state
+            const { componentList, selectedId } = state
             const index = componentList.findIndex(c => c.fe_id === selectedId)
-            if(index < 0 || index === componentList.length - 1) return // 未选择组件或者当前组件在最后一个时，不做任何处理
-            state.selectedId = componentList[index + 1].fe_id  
+            if (index < 0 || index === componentList.length - 1) return // 未选择组件或者当前组件在最后一个时，不做任何处理
+            state.selectedId = componentList[index + 1].fe_id
         },
+        changeComponentTitle: (state: ComponentsStateType, action: PayloadAction<{ value: string }>) => {
+            const { selectedId, componentList } = state
+            const { value } = action.payload
+            const component = componentList.find(c => c.fe_id === selectedId)
+            if (!component) return
+            component.title = value
+        }
     }
 })
 
@@ -129,7 +148,8 @@ export const {
     changeComponentLock,
     copySelectComponent,
     toPreComponent,
-    toNextComponent
+    toNextComponent,
+    changeComponentTitle
 } = componentsSlice.actions
 
 export default componentsSlice.reducer

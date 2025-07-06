@@ -4,7 +4,8 @@ import { useRequest } from "ahooks";
 import { useEffect } from 'react';
 import { message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { setComponents,setSelectedId,type ComponentInfoType } from '@/store/componentsReducer';
+import { setComponents,setSelectedId } from '@/store/componentsReducer';
+import { setPageInfo } from '@/store/pageInfoReducer';
 /**
  * 根据id查询单个问卷数据
  * @returns data 问卷对象、error 错误信息、loading 网络请求时的加载状态
@@ -23,13 +24,14 @@ export const useLoadingQuestion = () => {
     });
     useEffect(() => {
         if(!question) return
-        const {title = '',componentList = []} = question 
+        const {title = '',componentList = [],pageInfo = {}} = question 
         let selectedId = ''
         if(componentList.length){
             selectedId = componentList[0].fe_id
         }
         dispatch(setComponents(componentList))
         dispatch(setSelectedId(selectedId))
+        dispatch(setPageInfo(pageInfo))
     },[question])
     useEffect(() => {
         if(!id) return message.error('没有问卷 id')

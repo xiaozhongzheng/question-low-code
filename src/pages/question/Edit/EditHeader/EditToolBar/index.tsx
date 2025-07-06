@@ -15,7 +15,6 @@ const EditToolBar = () => {
     const dispatch = useDispatch()
     const { selectComponent, copyComponent } = useGetComponentInfo()
     const { isLock = false } = selectComponent || {}
-    console.log(isLock, 'isLock')
     const handleDelete = () => {
         // 删除当前选中的文件
         dispatch(deleteComponentById())

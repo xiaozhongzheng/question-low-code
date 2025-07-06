@@ -11,7 +11,6 @@ const ComponentProps = () => {
     const { selectComponent } = useGetComponentInfo()
     if(!selectComponent) return <NoProps />
     const {type,props,fe_id,isLock = false} = selectComponent
-    console.log(props,'======props')
     const componentConfig = getComponentConfigByType(type)
     if(!componentConfig) return <NoProps />
     const {PropsComponent = null} = componentConfig

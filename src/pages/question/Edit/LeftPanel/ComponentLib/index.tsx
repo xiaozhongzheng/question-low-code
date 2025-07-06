@@ -8,7 +8,6 @@ import { nanoid } from '@reduxjs/toolkit'
 const { Title } = Typography
 const ComponentLib: FC = () => {
     const dispatch = useDispatch()
-    console.log(componentConfigGroup,'componentConfigGroup')
     const getComponent = (component: ComponentConfigType) => {
         const { Component, type, title, defaultProps } = component
         const handleAdd = (e: MouseEvent) => {

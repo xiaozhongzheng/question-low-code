@@ -10,7 +10,6 @@ const Canvas: FC = () => {
     // console.log(componentConfigList,'componentConfigList')
     const dispatch = useDispatch()
     const { componentList, selectedId = '' } = useGetComponentInfo()
-    console.log(componentList, selectedId, '*&&')
     const getComponent = (componentInfo: ComponentInfoType) => {
         const { type, props } = componentInfo
         const componentConfig = getComponentConfigByType(type)

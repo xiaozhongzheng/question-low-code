@@ -57,7 +57,30 @@ export default [
                                 isVertical: false
                             }
                         },
-                    ]
+                        {
+                            fe_id: Random.id(),
+                            type: 'questionCheckbox', // 组件类型，不能重复
+                            title: '多选',
+                            isHidden: false, // 是否隐藏画布中的组件
+                            isLock: false, // 是否锁定组件
+                            props: {
+                                title: '你的梦想',
+                                list: [
+                                    { label: '看世界', value: 'item1',checked:false },
+                                    { label: '一生平安', value: 'item2',checked:false },
+                                    { label: '学有所成', value: 'item3',checked:false },
+                                ],
+                                values: [],
+                                isVertical: false
+                            }
+                        },
+                    ],
+                    pageInfo: {
+                        title: '问卷描述',
+                        desc: '',
+                        js: '',
+                        css: ''
+                    }
                 }
             };
         }

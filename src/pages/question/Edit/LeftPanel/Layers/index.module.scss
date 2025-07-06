@@ -1,0 +1,21 @@
+.main {
+    // padding: 16px;
+    .list {
+        .item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            gap: 12px;
+            .title {
+                flex: 1;
+            }
+           &:hover {
+            cursor: pointer;
+           }
+        }
+         .active {
+                color: blue;
+            }
+    }
+}
