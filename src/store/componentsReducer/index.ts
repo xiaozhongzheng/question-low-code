@@ -74,11 +74,9 @@ export const componentsSlice = createSlice({
                 message.warning('请先选择组件！')
                 return
             }
-
             const { isHidden } = action.payload
             const component = componentList.find(c => c.fe_id === newId)
             if (!component) return
-            component.isHidden = isHidden
             if (isHidden) {
                 // 隐藏组件
                 const newSelected = getNextSelected(newId, componentList.filter(c => !c.isHidden))
@@ -89,6 +87,7 @@ export const componentsSlice = createSlice({
                 state.selectedId = newId
             }
 
+            component.isHidden = isHidden
 
         },
         changeComponentLock: (state: ComponentsStateType, action: PayloadAction<{ selectId: string }>) => {

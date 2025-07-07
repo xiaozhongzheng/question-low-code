@@ -21,10 +21,13 @@ const pageInfoSlice = createSlice({
         setPageInfo: (state: PageInfoStateType,action: PayloadAction<PageInfoStateType>) => {
             // state = action.payload 不行，原因：redux状态不可变
             return action.payload
+        },
+        changePageTitle: (state: PageInfoStateType,action: PayloadAction<{title: string}>) => {
+            state.title = action.payload.title
         }
     }
 })
 
-export const {setPageInfo} = pageInfoSlice.actions
+export const {setPageInfo,changePageTitle} = pageInfoSlice.actions
 
 export default pageInfoSlice.reducer

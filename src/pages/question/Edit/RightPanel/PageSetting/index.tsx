@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import { useGetPageInfo } from '@/hooks/useGetPageInfo';
 const { TextArea } = Input;
-
+import { setPageInfo } from '@/store/pageInfoReducer';
+import { useDispatch } from 'react-redux'
 
 const PageSetting: React.FC = () => {
+    const dispatch = useDispatch()
     const { pageInfo } = useGetPageInfo()
     console.log(pageInfo,'pageInfo')
     const [form] = Form.useForm();
-
+    useEffect(() => {
+        form.setFieldsValue(pageInfo)
+    },[pageInfo])
     // 表单值变化时的回调
     const handleValuesChange = () => {
         const values = form.getFieldsValue()
         console.log('表单值变化:', values);
-
+        dispatch(setPageInfo(values))
     };
 
     return (

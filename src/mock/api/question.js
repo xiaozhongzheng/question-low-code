@@ -76,7 +76,7 @@ export default [
                         },
                     ],
                     pageInfo: {
-                        title: '问卷描述',
+                        title: '老人与海',
                         desc: '',
                         js: '',
                         css: ''
