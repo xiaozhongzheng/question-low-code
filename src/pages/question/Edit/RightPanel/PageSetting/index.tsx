@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 const PageSetting: React.FC = () => {
     const dispatch = useDispatch()
     const { pageInfo } = useGetPageInfo()
-    console.log(pageInfo,'pageInfo')
+    console.log('===pageSetting')
     const [form] = Form.useForm();
     useEffect(() => {
         form.setFieldsValue(pageInfo)

@@ -6,3 +6,8 @@
 h1, h2, h3, h4, h5 {
   margin: 0 !important;
 }
+
+/* dnd-kit 解决拖拽排序导致元素显示多余边框的问题 */
+div[role='button'] {
+  outline: 0;
+}

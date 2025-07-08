@@ -14,6 +14,7 @@ const { Title } = Typography
 const TitleElem: FC = () => {
     const dispatch = useDispatch()
     const { pageInfo } = useGetPageInfo()
+    console.log('===header',pageInfo)
     const { title } = pageInfo || {}
     const [isEdit, setIsEdit] = useState(false)
     const [value, setValue] = useState(title)
@@ -23,7 +24,7 @@ const TitleElem: FC = () => {
     }
     useEffect(() => {
         title && setValue(title)
-    }, [pageInfo])
+    }, [title])
     if (isEdit) {
         return (
             <Input

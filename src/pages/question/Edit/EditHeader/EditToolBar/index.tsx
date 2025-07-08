@@ -1,4 +1,4 @@
-import { BlockOutlined, CopyOutlined, DeleteOutlined, EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
+import { BlockOutlined, CopyOutlined, DeleteOutlined, DownOutlined, EyeInvisibleOutlined, LockOutlined, UpOutlined } from '@ant-design/icons'
 import { Space, Tooltip, Button } from 'antd'
 import { nanoid } from 'nanoid'
 import { useDispatch } from 'react-redux'
@@ -7,14 +7,18 @@ import {
     changeComponentHidden,
     changeComponentLock,
     copySelectComponent,
-    addComponents
+    addComponents,
+    changeComponentPosition
 } from '@/store/componentsReducer'
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
 const EditToolBar = () => {
 
     const dispatch = useDispatch()
-    const { selectComponent, copyComponent } = useGetComponentInfo()
+    const { selectComponent, copyComponent,componentList,selectedId } = useGetComponentInfo()
     const { isLock = false } = selectComponent || {}
+    const index = componentList.findIndex(c => c.fe_id === selectedId)
+    const isFirst = index <= 0
+    const isLast = index >= componentList.length - 1 || index<0
     const handleDelete = () => {
         // 删除当前选中的文件
         dispatch(deleteComponentById())
@@ -25,7 +29,7 @@ const EditToolBar = () => {
     }
 
     const handleLock = () => {
-        dispatch(changeComponentLock())
+        dispatch(changeComponentLock({}))
     }
 
     const handleCopy = () => {
@@ -35,6 +39,12 @@ const EditToolBar = () => {
         if (copyComponent) {
             dispatch(addComponents({...copyComponent,fe_id: nanoid()}))
         }
+    }
+    const handleUpMove = () => {
+        dispatch(changeComponentPosition({oldIndex: index,newIndex: index-1}))
+    }
+    const handleDownMove = () => {
+        dispatch(changeComponentPosition({oldIndex: index,newIndex: index+1}))
     }
     return (
         <Space>
@@ -52,6 +62,12 @@ const EditToolBar = () => {
             </Tooltip>
             <Tooltip title="粘贴">
                 <Button disabled={!copyComponent} shape='circle' icon={<BlockOutlined />} onClick={handlePaste}></Button>
+            </Tooltip>
+            <Tooltip title="上移">
+                <Button disabled={isFirst} shape='circle' icon={<UpOutlined />} onClick={handleUpMove}></Button>
+            </Tooltip>
+            <Tooltip title="下移">
+                <Button disabled={isLast} shape='circle' icon={<DownOutlined />} onClick={handleDownMove}></Button>
             </Tooltip>
         </Space>
     )

@@ -14,3 +14,17 @@ export const getNextSelected = (selected: string,componentList: ComponentInfoTyp
     // 删除中间的组件，返回下一个组件的id
     return componentList[index + 1].fe_id
 }
+
+/**
+ * 将某个数组的startIndex位置上的元素移动到endIndex位置上去
+ * @param arr 
+ * @param startIndex 
+ * @param endIndex 
+ * @returns 
+ */
+export const myMoveArray = (arr: Array<any>,startIndex: number,endIndex: number) => {
+    const newArr = arr.map(item => item) // 返回一个新数组
+    newArr.splice(startIndex,1) // 删除startIndex处的元素
+    newArr.splice(endIndex,0,arr[startIndex]) // 在endIndex处插入被删除的元素
+    return newArr
+}

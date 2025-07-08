@@ -3,6 +3,10 @@ import { type ComponentsPropsType } from "@/components/Question";
 import { getNextSelected } from './util';
 import { cloneDeep } from 'lodash'
 import { message } from "antd";
+// import {
+//     arrayMove,
+// } from '@dnd-kit/sortable';
+import { myMoveArray } from "./util";
 export type ComponentInfoType = {
     fe_id: string,
     type: string,
@@ -32,6 +36,7 @@ export const componentsSlice = createSlice({
         },
         setSelectedId: (state: ComponentsStateType, action: PayloadAction<string>) => {
             state.selectedId = action.payload
+            console.log(action,'action')
         },
         addComponents: (state: ComponentsStateType, action: PayloadAction<ComponentInfoType>) => {
             const { componentList, selectedId } = state
@@ -67,7 +72,7 @@ export const componentsSlice = createSlice({
             console.log(index, 'index')
             componentList.splice(index, 1)
         },
-        changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean, selectId: string }>) => {
+        changeComponentHidden: (state: ComponentsStateType, action: PayloadAction<{ isHidden: boolean, selectId?: string }>) => {
             let newId = action.payload?.selectId || state.selectedId
             const { componentList } = state
             if (!newId) {
@@ -90,7 +95,7 @@ export const componentsSlice = createSlice({
             component.isHidden = isHidden
 
         },
-        changeComponentLock: (state: ComponentsStateType, action: PayloadAction<{ selectId: string }>) => {
+        changeComponentLock: (state: ComponentsStateType, action: PayloadAction<{ selectId?: string }>) => {
             let newId = action.payload?.selectId || state.selectedId
             const { componentList } = state
             if (!newId) {
@@ -133,6 +138,11 @@ export const componentsSlice = createSlice({
             const component = componentList.find(c => c.fe_id === selectedId)
             if (!component) return
             component.title = value
+        },
+        changeComponentPosition: (state: ComponentsStateType,action: PayloadAction<{oldIndex: number;newIndex: number}>) => {
+            const {componentList} = state
+            const {oldIndex,newIndex} = action.payload
+            state.componentList = myMoveArray(componentList,oldIndex,newIndex)
         }
     }
 })
@@ -148,7 +158,8 @@ export const {
     copySelectComponent,
     toPreComponent,
     toNextComponent,
-    changeComponentTitle
+    changeComponentTitle,
+    changeComponentPosition
 } = componentsSlice.actions
 
 export default componentsSlice.reducer
