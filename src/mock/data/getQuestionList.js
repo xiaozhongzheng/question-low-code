@@ -12,7 +12,7 @@ export function getQuestionList(opt = {}) {
     const list = [];
     for (let i = 0; i < pageSize; i++) {
         list.push({
-            id: Random.id(),          // 生成唯一ID
+            id: Random.id(3),          // 生成唯一ID
             title: Random.ctitle(),      // 生成随机标题
             isPublished: Random.boolean(),  // 是否发布
             isStar,    // 是否标星

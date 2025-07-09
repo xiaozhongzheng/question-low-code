@@ -1,4 +1,4 @@
-import { BlockOutlined, CopyOutlined, DeleteOutlined, DownOutlined, EyeInvisibleOutlined, LockOutlined, UpOutlined } from '@ant-design/icons'
+import { BlockOutlined, CopyOutlined, DeleteOutlined, DownOutlined, EyeInvisibleOutlined, LockOutlined, RedoOutlined, UndoOutlined, UpOutlined } from '@ant-design/icons'
 import { Space, Tooltip, Button } from 'antd'
 import { nanoid } from 'nanoid'
 import { useDispatch } from 'react-redux'
@@ -8,7 +8,9 @@ import {
     changeComponentLock,
     copySelectComponent,
     addComponents,
-    changeComponentPosition
+    changeComponentPosition,
+    undo,
+    redo,
 } from '@/store/componentsReducer'
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
 const EditToolBar = () => {
@@ -38,6 +40,7 @@ const EditToolBar = () => {
     const handlePaste = () => {
         if (copyComponent) {
             dispatch(addComponents({...copyComponent,fe_id: nanoid()}))
+            // dispatch(recordSnapshot())
         }
     }
     const handleUpMove = () => {
@@ -45,6 +48,12 @@ const EditToolBar = () => {
     }
     const handleDownMove = () => {
         dispatch(changeComponentPosition({oldIndex: index,newIndex: index+1}))
+    }
+    const handleUndo = () => {
+        dispatch(undo())
+    }
+    const handleRedo = () => {
+        dispatch(redo())
     }
     return (
         <Space>
@@ -68,6 +77,12 @@ const EditToolBar = () => {
             </Tooltip>
             <Tooltip title="下移">
                 <Button disabled={isLast} shape='circle' icon={<DownOutlined />} onClick={handleDownMove}></Button>
+            </Tooltip>
+             <Tooltip title="撤销">
+                <Button  shape='circle' icon={<UndoOutlined />} onClick={handleUndo}></Button>
+            </Tooltip>
+            <Tooltip title="重做">
+                <Button  shape='circle' icon={<RedoOutlined />} onClick={handleRedo}></Button>
             </Tooltip>
         </Space>
     )

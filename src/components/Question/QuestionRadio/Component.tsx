@@ -10,7 +10,6 @@ const Component: FC<RadioPropsType> = (props: RadioPropsType) => {
             <Title level={4}>{title}</Title>
             <Radio.Group
                 value={value}
-                style={{marginTop: '8px'}}
             >
                 <Space wrap direction={isVertical ? 'vertical' : 'horizontal'}>
                     {options.filter(item => item.label).map(({ label, value }) => {

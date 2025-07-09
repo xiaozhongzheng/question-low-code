@@ -1,5 +1,5 @@
 import React, { type FC } from 'react'
-import { componentConfigGroup, type ComponentConfigType, getComponentConfigByType } from '@/components/Question'
+import { componentConfigGroup, type ComponentConfigType } from '@/components/Question'
 import { Typography } from 'antd'
 import styles from './index.module.scss'
 import { useDispatch } from 'react-redux'
@@ -20,6 +20,7 @@ const ComponentLib: FC = () => {
                 isHidden: false,
                 props: defaultProps
             }))
+            // dispatch(recordSnapshot())
         }
         if (!Component) return null
         return (
@@ -37,7 +38,7 @@ const ComponentLib: FC = () => {
                     const { groupName, components } = item
                     return (
                         <div key={index} className={styles.item}>
-                            <Title style={{color: 'skyblue'}} level={4}>{groupName}</Title>
+                            <Title style={{ color: 'skyblue' }} level={4}>{groupName}</Title>
                             {
                                 components.map(c => getComponent(c as ComponentConfigType))
                             }

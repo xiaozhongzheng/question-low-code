@@ -4,7 +4,7 @@ import { useRequest } from "ahooks";
 import { useEffect } from 'react';
 import { message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { setComponents,setSelectedId } from '@/store/componentsReducer';
+import { initData, setComponents,setSelectedId } from '@/store/componentsReducer';
 import { setPageInfo } from '@/store/pageInfoReducer';
 /**
  * 根据id查询单个问卷数据
@@ -29,9 +29,9 @@ export const useLoadingQuestion = () => {
         if(componentList.length){
             selectedId = componentList[0].fe_id
         }
-        dispatch(setComponents(componentList))
-        dispatch(setSelectedId(selectedId))
+        dispatch(initData({componentList,selectedId}))
         dispatch(setPageInfo(pageInfo))
+        // dispatch(recordSnapshot())
     },[question])
     useEffect(() => {
         if(!id) return message.error('没有问卷 id')
