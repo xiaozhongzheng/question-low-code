@@ -37,8 +37,8 @@ const INIT_STATE: ComponentsStateType = {
 // 记录快照
 const recordSnapshot = (state: ComponentsStateType) => {
     const { componentList, snapshotData, maxSnapshotCount, selectedId, copyComponent, snapshotIndex } = state
-    if(snapshotIndex !== snapshotData.length - 1){
-        state.snapshotData = snapshotData.slice(0,snapshotIndex+1)
+    if(snapshotIndex < snapshotData.length - 1){
+        snapshotData.splice(snapshotIndex+1,snapshotData.length)
     }
     
     snapshotData.push({ componentList, selectedId, copyComponent })
