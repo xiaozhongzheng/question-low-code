@@ -6,7 +6,9 @@ import {
     toPreComponent,
     toNextComponent,
     copySelectComponent,
-    addComponents
+    addComponents,
+    undo,
+    redo
 } from '@/store/componentsReducer'
 import { useGetComponentInfo } from "./useGetComponentInfo"
 /** */
@@ -45,6 +47,15 @@ export const useBindCanvasKeyPress = () => {
         dispatch(toNextComponent())
     })
 
+    // 撤回
+    useKeyPress(['ctrl.z'],() =>{
+        dispatch(undo())
+    })
+
+    // 重做
+    useKeyPress(['ctrl.shift.z'],() =>{
+        dispatch(redo())
+    })
 }
 
 // 判断鼠标的光标是否点击的是画布中的组件

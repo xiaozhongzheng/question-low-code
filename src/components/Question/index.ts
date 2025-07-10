@@ -33,20 +33,20 @@ export const getComponentConfigByType = (type: string) => {
 // 组件分组配置
 export const componentConfigGroup = [
     {
-        groupName: '文本显示',
+        groupName: '文本显示组',
         components: [
             QuestionTitleConfig,
             QuestionParagraphConfig
         ]
     },
     {
-        groupName: '用户输入',
+        groupName: '用户输入组',
         components: [
             QuestionInputConfig
         ]
     },
     {
-        groupName: '用户选择',
+        groupName: '用户选择组',
         components: [
             QuestionRadioConfig,
             QuestionCheckboxConfig
