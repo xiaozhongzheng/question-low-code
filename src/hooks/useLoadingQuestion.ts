@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { getQuestionApi } from "@/services/question";
+import { getQuestionApi } from "@/api/question";
 import { useRequest } from "ahooks";
 import { useEffect } from 'react';
 import { message } from 'antd';

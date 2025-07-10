@@ -4,7 +4,7 @@ import styles from './ManageLayout.module.scss'
 import { Button, Divider, Flex, message } from 'antd';
 import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { saveQuestionApi } from '@/services/question';
+import { saveQuestionApi } from '@/api/question';
 import { useRequest } from 'ahooks';
 const ManageLayout: FC = () => {
 

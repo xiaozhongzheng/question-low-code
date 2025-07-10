@@ -7,7 +7,7 @@ const Random = Mock.Random;
  * @param {boolean} isDeleted - 标记问题是否被删除，默认为false
  * @returns {Array} 返回生成的问题列表
  */
-export function getQuestionList(opt = {}) {
+export function getQuestionList(opt: any) {
     const { page = 1, pageSize = 5, isStar, isDeleted } = opt
     const list = [];
     for (let i = 0; i < pageSize; i++) {

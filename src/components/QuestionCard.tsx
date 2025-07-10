@@ -3,7 +3,7 @@ import styles from './QuestionCard.module.scss';
 import { Button, Space, Tag, Popconfirm, Modal,message } from 'antd';
 import { EditOutlined, StockOutlined, StarOutlined, CopyOutlined, DeleteOutlined, StarFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { patchQuestionApi } from '@/services/question';
+import { patchQuestionApi } from '@/api/question';
 import { useRequest } from 'ahooks';
 type PropsType = {
     id: string,

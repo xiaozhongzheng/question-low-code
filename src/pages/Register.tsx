@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import type { Rule } from 'antd/es/form'
 import { useRequest } from 'ahooks'
-import { registerApi } from '@/services/user'
+import { registerApi } from '@/api/user'
 interface RegisterForm {
   username: string
   password: string

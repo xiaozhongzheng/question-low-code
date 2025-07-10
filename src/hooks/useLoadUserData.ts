@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGetUserInfo } from "./useGetUserInfo";
 import { useRequest } from "ahooks";
-import { getUserInfoApi } from "@/services/user";
+import { getUserInfoApi } from "@/api/user";
 import { useDispatch } from "react-redux";
 import { loginReducers } from "@/store/userReducer";
 /**

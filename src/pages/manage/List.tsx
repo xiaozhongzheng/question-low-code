@@ -6,7 +6,7 @@ import { Empty, Spin } from 'antd';
 // import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounceFn, useRequest } from 'ahooks';
-import { getQuestionListApi } from '@/services/question';
+import { getQuestionListApi } from '@/api/question';
 import MyLoading from '@/components/MyLoading';
 // const defaultList = [
 //     {

@@ -1,19 +1,16 @@
 import Mock from 'mockjs';
-import { getQuestionList } from '../data/getQuestionList.js';
-
-
+import {UserService} from '../../service/userService.js'
+import { type MockMethodType } from '../index.ts';
 const Random = Mock.Random;
-export default [
+const list: MockMethodType[] = [
     {
         url: '/api/user/info',
         method: 'get',
-        response() {
+        response: async () => {
+            const data = await UserService.getUser("xzz")
             return {
                 errno: 0,
-                data: {
-                    username: Random.title(),
-                    nickname: Random.cname()
-                }
+                data
             };
         }
     },
@@ -40,3 +37,4 @@ export default [
         }
     },
 ];
+export default list;

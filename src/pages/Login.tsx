@@ -2,7 +2,7 @@ import React, { type FC } from 'react'
 import { Form, Input, Button, Card, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import { loginApi } from '@/services/user'
+import { loginApi } from '@/api/user'
 import { useRequest } from 'ahooks'
 import { setToken } from '@/utils/userToken'
 interface LoginForm {

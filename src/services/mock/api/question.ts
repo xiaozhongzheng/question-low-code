@@ -1,5 +1,5 @@
 import Mock from 'mockjs';
-import { getQuestionList } from '../data/getQuestionList.js';
+import { getQuestionList } from '../data/getQuestionList.ts';
 
 
 const Random = Mock.Random;

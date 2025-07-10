@@ -7,7 +7,7 @@ import { useLoadingQuestionList } from '@/hooks/useLoadingQuestionList';
 import ListPage from '@/components/ListPage';
 import MyLoading from '@/components/MyLoading';
 import { useRequest } from 'ahooks';
-import { patchQuestionApi,deleteQuestionApi } from '@/services/question';
+import { patchQuestionApi,deleteQuestionApi } from '@/api/question';
 const columns = [
   {
     title: '标题',

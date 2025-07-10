@@ -7,7 +7,7 @@ import EditToolBar from './EditToolBar'
 import { useGetPageInfo } from '@/hooks/useGetPageInfo'
 import { changePageTitle } from '@/store/pageInfoReducer'
 import { useDispatch } from 'react-redux'
-import { patchQuestionApi } from '@/services/question'
+import { patchQuestionApi } from '@/api/question'
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
 import { useDebounceEffect, useKeyPress, useRequest } from 'ahooks'
 const { Title } = Typography

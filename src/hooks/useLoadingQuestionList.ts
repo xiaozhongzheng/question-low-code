@@ -1,5 +1,5 @@
 import { useRequest } from "ahooks";
-import { getQuestionListApi } from '@/services/question';
+import { getQuestionListApi } from '@/api/question';
 import { useUrlSearchParams } from "./useUrlSearchParams";
 import { useSearchParams } from 'react-router-dom';
 
