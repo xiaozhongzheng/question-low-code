@@ -5,10 +5,11 @@ import { Link, useNavigate } from 'react-router-dom'
 // import { useRequest } from 'ahooks'
 import { UserOutlined } from '@ant-design/icons'
 import { Button, message } from 'antd'
-import { removeToken } from '../utils/userToken'
+import { removeToken } from '../utils/storage/userToken'
 import { useGetUserInfo } from '@/hooks/useGetUserInfo'
 import { useDispatch } from 'react-redux'
 import { logoutReducers } from '@/store/userReducer'
+import { removeUserInfo } from '@/utils/storage/userInfo'
 const UserInfo: FC = () => {
   const nav = useNavigate()
   // const { data } = useRequest(getUserInfoApi)
@@ -20,12 +21,13 @@ const UserInfo: FC = () => {
     dispatch(logoutReducers())
     message.success('退出成功')
     removeToken()
+    removeUserInfo()
     nav('/login')
   }
   const UserInfo = (
     <>
       <span style={{ color: 'white' }}>
-        <UserOutlined /> {nickname}
+        <UserOutlined /> {nickname || username}
       </span>
       <Button type="link" onClick={logout}>退出登录</Button>
     </>

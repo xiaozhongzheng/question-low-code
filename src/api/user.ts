@@ -4,9 +4,13 @@ import type { ResDataType } from '../utils/request';
 
 
 // 获取用户信息
-export async function getUserInfoApi(): Promise<ResDataType> {
+export async function getUserInfoApi(username: string): Promise<ResDataType> {
     const url = '/api/user/info';
-    const data = await request.get(url);
+    const data = await request.get(url,{
+        params: {
+            username
+        }
+    });
     return data as ResDataType;
 
 }

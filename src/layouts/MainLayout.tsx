@@ -10,7 +10,7 @@ import { useRouterGuard } from '@/hooks/useRouterGuard';
 const { Header, Footer, Content } = Layout;
 const MainLayout: FC = () => {
   const { waitingUserData } = useLoadUserData()
-  useRouterGuard(waitingUserData)
+  // useRouterGuard(waitingUserData)
   return (
     <Layout className={styles.container}>
       <Header className={styles.header}>

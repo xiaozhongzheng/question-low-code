@@ -1,6 +1,5 @@
 import Mock from 'mockjs';
-import { getQuestionList } from '../data/getQuestionList.ts';
-
+import { getQuestionList } from '../data/getQuestionList.js';
 
 const Random = Mock.Random;
 export default [
@@ -14,38 +13,36 @@ export default [
                     id: Random.id(),
                     title: Random.ctitle(),
                     componentList: [
-                        // Title
                         {
                             fe_id: Random.id(),
-                            type: 'questionTitle', // 组件类型，不能重复
+                            type: 'questionTitle',
                             title: '标题',
-                            isHidden: false, // 是否隐藏画布中的组件
-                            isLock: false, // 是否锁定组件
+                            isHidden: false,
+                            isLock: false,
                             props: { text: '个人信息调研', level: 1, color: '#000', isCenter: true }
                         },
-                        // Input
                         {
                             fe_id: Random.id(),
-                            type: 'questionInput', // 组件类型，不能重复
+                            type: 'questionInput',
                             title: '输入框',
-                            isHidden: false, // 是否隐藏画布中的组件
-                            isLock: false, // 是否锁定组件
+                            isHidden: false,
+                            isLock: false,
                             props: { title: '你的姓名', placeholder: '请输入姓名' }
                         },
                         {
                             fe_id: Random.id(),
-                            type: 'questionParagraph', // 组件类型，不能重复
+                            type: 'questionParagraph',
                             title: '段落内容',
-                            isHidden: false, // 是否隐藏画布中的组件
-                            isLock: false, // 是否锁定组件
+                            isHidden: false,
+                            isLock: false,
                             props: { text: '这是一个低代码项目' }
                         },
                         {
                             fe_id: Random.id(),
-                            type: 'questionRadio', // 组件类型，不能重复
+                            type: 'questionRadio',
                             title: '单选',
-                            isHidden: false, // 是否隐藏画布中的组件
-                            isLock: false, // 是否锁定组件
+                            isHidden: false,
+                            isLock: false,
                             props: {
                                 title: '你的喜好',
                                 options: [
@@ -59,10 +56,10 @@ export default [
                         },
                         {
                             fe_id: Random.id(),
-                            type: 'questionCheckbox', // 组件类型，不能重复
+                            type: 'questionCheckbox',
                             title: '多选',
-                            isHidden: false, // 是否隐藏画布中的组件
-                            isLock: false, // 是否锁定组件
+                            isHidden: false,
+                            isLock: false,
                             props: {
                                 title: '你的梦想',
                                 list: [
@@ -101,22 +98,20 @@ export default [
         url: '/api/question',
         method: 'get',
         response(ctx) {
-            const { url = '', query = {} } = ctx
-            console.log(url, 'url')
-            console.log(ctx.query, 'query')
-            const { page, pageSize, isDeleted = false, isStar = false } = query
+            const { url = '', query = {} } = ctx;
+            console.log(url, 'url');
+            console.log(ctx.query, 'query');
+            const { page, pageSize, isDeleted = false, isStar = false } = query;
             return {
                 errno: 0,
                 data: {
-                    list: getQuestionList(
-                        {
-                            isStar: !!isStar,
-                            isDeleted: !!isDeleted,
-                            page: +page,
-                            pageSize: +pageSize
-                        }
-                    ), // 当前页
-                    total: 50 // 总页数
+                    list: getQuestionList({
+                        isStar: !!isStar,
+                        isDeleted: !!isDeleted,
+                        page: +page,
+                        pageSize: +pageSize
+                    }),
+                    total: 50
                 }
             };
         }
@@ -127,7 +122,6 @@ export default [
         response() {
             return {
                 errno: 0,
-
             };
         }
     },
@@ -137,7 +131,6 @@ export default [
         response() {
             return {
                 errno: 0,
-
             };
         }
     },

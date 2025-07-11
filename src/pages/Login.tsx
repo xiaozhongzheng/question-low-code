@@ -4,7 +4,10 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginApi } from '@/api/user'
 import { useRequest } from 'ahooks'
-import { setToken } from '@/utils/userToken'
+import { setToken } from '@/utils/storage/userToken'
+import { useDispatch } from 'react-redux'
+import { loginReducers } from '@/store/userReducer'
+import { setUserInfo, setUserList } from '@/utils/storage/userInfo'
 interface LoginForm {
   username: string
   password: string
@@ -12,16 +15,21 @@ interface LoginForm {
 
 const Login: FC = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
   const { run: login } = useRequest(async (values) => {
     const { username, password } = values || {}
-    return await loginApi(username, password)
+    return await loginApi(username, password) 
   }, {
     manual: true,
     onSuccess: (res) => {
       console.log(res, 'res')
-      const {token} = res
+      if(!res) return message.error('用户名或密码错误!')
+      const {token,username,nickname,userList} = res
       setToken(token)
+      dispatch(loginReducers({username,nickname}))
+      setUserInfo({username,nickname})
+      setUserList(userList)
       message.success('登录成功！')
       navigate('/manage/list')
     }
