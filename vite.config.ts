@@ -17,6 +17,7 @@ export default defineConfig({
         changeOrigin: true, // 修改请求头中的 Origin 为目标地址
       },
     },
+    port: 8888
   },
   css: {
      preprocessorOptions: {

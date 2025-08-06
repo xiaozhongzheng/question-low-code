@@ -13,18 +13,18 @@ export function useLoadUserData() {
     const dispatch = useDispatch()
     const { username } = useGetUserInfo()
     const userInfo = getUserInfo()
-    const { run,loading: waitingUserData } = useRequest(async () => getUserInfoApi(username || userInfo.username), {
+    const { run, loading: waitingUserData } = useRequest(async () => getUserInfoApi(username || userInfo.username), {
         manual: true,
         onSuccess: (res) => {
             const { username, nickname } = res
             // 将获取的数据保存在redux store中
             dispatch(loginReducers({ username, nickname }))
+            
         }
     })
     useEffect(() => {
-    run()
-
-    },[])
+        run()
+    }, [])
     // useEffect(() => {
     //     if (username) {
     //         // 已存在用户信息

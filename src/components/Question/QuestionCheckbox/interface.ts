@@ -9,7 +9,7 @@ export type CheckboxPropsType = {
     title?: string,
     checkedList?: boolean[];
     isVertical?: boolean;
-    list?: OptionType[];
+    options?: OptionType[];
     disabled?: boolean;
     onChange?: (newProps: CheckboxPropsType) => void
 }
@@ -17,7 +17,7 @@ export type CheckboxPropsType = {
 export const defaultProps: CheckboxPropsType = {
     title: '多选标题',
     isVertical: false,
-    list: [
+    options: [
         {
             label: '选项1',
             value: 'item1',

@@ -8,6 +8,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useDebounceFn, useRequest } from 'ahooks';
 import { getQuestionListApi } from '@/api/question';
 import MyLoading from '@/components/MyLoading';
+import type { QuestionSchema } from '@/components/Question';
 // const defaultList = [
 //     {
 //         id: 'q1',
@@ -41,14 +42,15 @@ const List: FC = () => {
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
     const [loading, setLoading] = useState(true)
-    const [isBottom,setIsBottom] = useState(false) // 是否触底
+    const [isBottom, setIsBottom] = useState(false) // 是否触底
 
-    const getData = async () => {
-        return await getQuestionListApi({
-            page,
-            pageSize: 5,
-            keyword: searchParams.get('keyword') || ''
-        })
+    const getData =  (): QuestionSchema[] => {
+        // return await getQuestionListApi({
+        //     page,
+        //     pageSize: 5,
+        //     keyword: searchParams.get('keyword') || ''
+        // })
+        return JSON.parse(localStorage.getItem('questionList') || '[]') || [] 
     }
     // const { loading = true, run: loadData } = useRequest(getData, {
     //     manual: true,
@@ -61,10 +63,10 @@ const List: FC = () => {
     // });
     const loadData = async () => {
         setLoading(true)
-        const { list = [], total } = await getData()
-        setQuestionList([...questionList, ...list])
+        const list = getData().map(item => ({ ...item.metadata,id: item.id }))
+        setQuestionList(list)
         setPage(page + 1)
-        setTotal(total)
+        setTotal(list.length)
         setLoading(false)
     }
     const { run: loadMoreData } = useDebounceFn(
@@ -92,10 +94,10 @@ const List: FC = () => {
     const handleLoadStatus = () => {
         if (loading && questionList.length === 0) return <MyLoading />
         if (questionList.length === 0) return <Empty description="暂无数据" />
-        if(!isBottom) return <div style={{color: 'green'}}>下划加载更多数据吧~</div>
+        if (!isBottom) return <div style={{ color: 'green' }}>下划加载更多数据吧~</div>
 
-        if (questionList.length >= total) return <div style={{color: 'green'}}>没有更多数据了~~~</div>
-        return <div style={{color: 'blue'}}>正在加载更多数据...</div>
+        if (questionList.length >= total) return <div style={{ color: 'green' }}>没有更多数据了~~~</div>
+        return <div style={{ color: 'blue' }}>正在加载更多数据...</div>
     }
     useEffect(() => {
         loadData() // 初始化数据

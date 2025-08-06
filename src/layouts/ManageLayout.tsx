@@ -6,10 +6,14 @@ import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from '@ant-d
 import { useNavigate, useLocation } from 'react-router-dom';
 import { saveQuestionApi } from '@/api/question';
 import { useRequest } from 'ahooks';
+import { useDispatch } from 'react-redux';
+import { setComponents } from '@/store/componentsReducer';
+import { setPageInfo } from '@/store/pageInfoReducer';
 const ManageLayout: FC = () => {
 
   const nav = useNavigate()
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
   console.log(pathname, 'useLocation')
   // const handleSave = async () => {
   //   const { id = '' } = await saveQuestionApi()
@@ -20,20 +24,25 @@ const ManageLayout: FC = () => {
   //     })
   //   }
   // }
-  const { loading, run:handleSave } = useRequest(saveQuestionApi, {
-    manual: true,
-    onSuccess: (res) => {
-      message.success('新建成功~')
-      nav({
-        pathname: `/question/edit/${res.id || 10}`
-      })
-    },
-  });
+  // const { loading, run:handleSave } = useRequest(saveQuestionApi, {
+  //   manual: true,
+  //   onSuccess: (res) => {
+  //     message.success('新建成功~')
+  //     nav({
+  //       pathname: `/question/edit/${res.id || 10}`
+  //     })
+  //   },
+  // });
+  const handleSave = () => {
+    dispatch(setComponents([]))
+    dispatch(setPageInfo({ title: '' }))
+    nav('/question/edit')
+  }
   return (
     <div className={styles.container1}>
       <div className={styles.left}>
         <Flex vertical gap="middle">
-          <Button disabled={loading} type="primary" icon={<PlusOutlined />} size={'large'} onClick={handleSave}>
+          <Button type="primary" icon={<PlusOutlined />} size={'large'} onClick={handleSave}>
             新建问卷
           </Button>
           <Divider style={{ borderTop: 'none' }} />

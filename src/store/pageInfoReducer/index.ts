@@ -1,13 +1,7 @@
+import type { QuestionPageInfo } from "@/components/Question";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-export type PageInfoStateType = {
-    title: string;
-    desc?: string;
-    js?: string;
-    css?: string;
-}
-
-const INIT_STATE: PageInfoStateType = {
+const INIT_STATE: QuestionPageInfo = {
     title: '',
     desc: '',
     js: '',
@@ -18,11 +12,11 @@ const pageInfoSlice = createSlice({
     name: 'pageInfo',
     initialState: INIT_STATE,
     reducers: {
-        setPageInfo: (state: PageInfoStateType,action: PayloadAction<PageInfoStateType>) => {
+        setPageInfo: (state: QuestionPageInfo,action: PayloadAction<QuestionPageInfo>) => {
             // state = action.payload 不行，原因：redux状态不可变
             return action.payload
         },
-        changePageTitle: (state: PageInfoStateType,action: PayloadAction<{title: string}>) => {
+        changePageTitle: (state: QuestionPageInfo,action: PayloadAction<{title: string}>) => {
             state.title = action.payload.title
         }
     }

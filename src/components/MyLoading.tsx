@@ -8,7 +8,10 @@ const MyLoading: FC<PropsType> = (props: PropsType) => {
     const { title = '数据加载中...', style = {} } = props
     const defaultStyle:React.CSSProperties = {
         textAlign: 'center',
-        margin: '20px 0 20px 0'
+        margin: '20px 0 20px 0',
+        position: 'absolute',
+        left: '50%',
+        top: '10%',
     }
     return (
         <div style={{...defaultStyle,...style}}>

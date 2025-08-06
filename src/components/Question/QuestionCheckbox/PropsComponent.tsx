@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 const PropsComponent: FC<CheckboxPropsType> = (props: CheckboxPropsType) => {
-    const { title, isVertical = false, list = [], disabled = false, onChange, checkedList } = props
+    const { title, isVertical = false, options = [], disabled = false, onChange, checkedList } = props
     const [form] = Form.useForm()
     const handleChange = () => {
         const props = form.getFieldsValue()
@@ -13,7 +13,7 @@ const PropsComponent: FC<CheckboxPropsType> = (props: CheckboxPropsType) => {
     }
     return (
         <Form
-            initialValues={{ title, list, checkedList, isVertical }}
+            initialValues={{ title, options, checkedList, isVertical }}
             layout='vertical'
             disabled={disabled}
             form={form}
@@ -23,7 +23,7 @@ const PropsComponent: FC<CheckboxPropsType> = (props: CheckboxPropsType) => {
                 <Input />
             </Form.Item>
             <Form.Item label="选项">
-                <Form.List name="list">
+                <Form.List name="options">
                     {(fields, { add, remove }) => (
                         <>
                             {fields.map((item, index) => {
@@ -40,7 +40,7 @@ const PropsComponent: FC<CheckboxPropsType> = (props: CheckboxPropsType) => {
                                                 { required: true, message: '请输入选项文字' },
                                                 {
                                                     validator: ((_, value) => {
-                                                        const aIndex = list.findIndex(item => item.label === value)
+                                                        const aIndex = options.findIndex(item => item.label === value)
                                                         if (aIndex > 0 && aIndex !== index) {
                                                             return Promise.reject('选项文字不能重复')
                                                         }

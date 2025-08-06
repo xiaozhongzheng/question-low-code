@@ -1,0 +1,202 @@
+.fillContainer {
+  min-height: 100vh;
+  background: #f7f7f7;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.title {
+  font-size: 40px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.fillContent {
+  width: 100%;
+  max-width: 800px;
+}
+
+.questionCard {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+  .pageDesc {
+    margin-top: 20px;
+  }
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0 0 12px 0;
+}
+
+.desc {
+  font-size: 16px;
+  color: #8c8c8c;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.form {
+  .titleComponent {
+    margin-bottom: 24px;
+    
+    h2 {
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+
+  .paragraphComponent {
+    margin-bottom: 24px;
+    
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+  }
+
+  .input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s;
+    
+    &:focus {
+      outline: none;
+      border-color: #1677ff;
+      box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+    }
+    
+    &::placeholder {
+      color: #bfbfbf;
+    }
+  }
+
+  .radioGroup,
+  .checkboxGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .radioItem,
+  .checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s;
+    
+    &:hover {
+      background-color: #f5f5f5;
+    }
+    
+    input {
+      margin: 0;
+    }
+    
+    span {
+      font-size: 14px;
+      color: #262626;
+    }
+  }
+
+  .rateGroup {
+    display: flex;
+    gap: 4px;
+  }
+
+  .star {
+    font-size: 24px;
+    color: #d9d9d9;
+    cursor: pointer;
+    transition: all 0.3s;
+    
+    &:hover {
+      color: #faad14;
+    }
+    
+    &.active {
+      color: #faad14;
+    }
+  }
+
+  .submitItem {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .submitBtn {
+    min-width: 120px;
+    height: 44px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+  
+  p {
+    font-size: 16px;
+    color: #8c8c8c;
+    margin: 0;
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .fillContainer {
+    padding: 12px;
+  }
+  
+  .fillContent {
+    max-width: 100%;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .desc {
+    font-size: 14px;
+  }
+  
+  .form {
+    .radioGroup,
+    .checkboxGroup {
+      gap: 8px;
+    }
+    
+    .radioItem,
+    .checkboxItem {
+      padding: 6px 8px;
+    }
+    
+    .star {
+      font-size: 20px;
+    }
+  }
+} 

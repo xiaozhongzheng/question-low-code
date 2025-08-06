@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux"
 import { type StateType } from "@/store"
-import { type PageInfoStateType } from "@/store/pageInfoReducer"
+import type { QuestionPageInfo } from "@/components/Question"
 export const useGetPageInfo = () => {
-    const pageInfo = useSelector<StateType>(state => state.pageInfo) as PageInfoStateType
+    const pageInfo = useSelector<StateType>(state => state.pageInfo) as QuestionPageInfo
     return {
         pageInfo
     }

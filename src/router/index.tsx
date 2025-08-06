@@ -11,6 +11,7 @@ import Trash from '@/pages/manage/Trash';
 import Star from '@/pages/manage/Star';
 import Edit from '@/pages/question/Edit';
 import Stat from '@/pages/question/StatPage';
+import Fill from '@/pages/question/Fill';
 
 
 const router = createBrowserRouter([
@@ -56,14 +57,17 @@ const router = createBrowserRouter([
         element: <QuestionLayout />,
         children: [
             {
-                path: 'edit/:id',
+                path: 'edit/:id?',
                 element: <Edit />
             },
             {
                 path: 'stat/:id',
                 element: <Stat />
+            },
+            {
+                path: 'fill/:id',
+                element: <Fill />
             }
-
         ]
     },
     {

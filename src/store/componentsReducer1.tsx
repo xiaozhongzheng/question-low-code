@@ -1,19 +1,19 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type ComponentsPropsType } from "@/components/Question";
+import { type ComponentInfoType, type ComponentsPropsType } from "@/components/Question";
 import { getNextSelected, myMoveArray } from './componentsReducer/util';
 import { message } from "antd";
 import { cloneDeep } from "lodash";
 // import {
 //     arrayMove,
 // } from '@dnd-kit/sortable';
-export type ComponentInfoType = {
-    fe_id: string,
-    type: string,
-    title: string,
-    isHidden: boolean,
-    isLock: boolean,
-    props: ComponentsPropsType
-}
+// export type ComponentInfoType = {
+//     fe_id: string,
+//     type: string,
+//     title: string,
+//     isHidden: boolean,
+//     isLock: boolean,
+//     props: ComponentsPropsType
+// }
 
 export type StateType = {
     componentList: Array<ComponentInfoType>, // 用于在画布中展示的组件列表

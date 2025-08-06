@@ -1,7 +1,7 @@
 import React, { useState, type FC } from 'react';
 import styles from './QuestionCard.module.scss';
-import { Button, Space, Tag, Popconfirm, Modal,message } from 'antd';
-import { EditOutlined, StockOutlined, StarOutlined, CopyOutlined, DeleteOutlined, StarFilled } from '@ant-design/icons';
+import { Button, Space, Tag, Popconfirm, Modal, message } from 'antd';
+import { EditOutlined, StockOutlined, StarOutlined, CopyOutlined, DeleteOutlined, StarFilled, EyeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { patchQuestionApi } from '@/api/question';
 import { useRequest } from 'ahooks';
@@ -16,22 +16,22 @@ type PropsType = {
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
     const { id, title, isPublished, isStar, createdAt, answerCount } = props
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isStarState,setIsStarState] = useState(isStar);
-    const {loading: starLoading,run: changeStar} = useRequest(async () => {
-        await patchQuestionApi(id,{isStar: !isStarState})
-    },{
+    const [isStarState, setIsStarState] = useState(isStar);
+    const { loading: starLoading, run: changeStar } = useRequest(async () => {
+        await patchQuestionApi(id, { isStar: !isStarState })
+    }, {
         manual: true,
         onSuccess: () => {
             setIsStarState(!isStarState)
             message.success('修改成功~')
         }
     })
-    const [del,setDel] = useState(false)
-    const {loading: delLoading,run: handleDelete} = useRequest(async () => {
-        return await patchQuestionApi(id,{
+    const [del, setDel] = useState(false)
+    const { loading: delLoading, run: handleDelete } = useRequest(async () => {
+        return await patchQuestionApi(id, {
             isDeleted: true
         })
-    },{
+    }, {
         manual: true,
         onSuccess: () => {
             message.success('删除成功~')
@@ -46,7 +46,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     //     alert('删除了')
     //     setIsModalOpen(false);
     // };
-    if(del) return null
+    if (del) return null
     return (
         <div className={styles.main} key={id}>
             <div className={styles.head}>
@@ -84,14 +84,25 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
                             编辑问卷
                         </Button>
                     </Link>
-
-                    <Button
+                    <Link to={`/question/stat/${id}`}>
+                        <Button
                         icon={<StockOutlined />}
                         type='text'
                         disabled={!isPublished}
                         size='small'>
                         数据统计
                     </Button>
+                    </Link>
+                    
+                    <Link to={`/question/fill/${id}`}>
+                        <Button
+                            icon={<EyeOutlined />}
+                            type='text'
+                            size='small'>
+                            预览
+                        </Button>
+                    </Link>
+
                 </Space>
                 <Space >
                     <Button
