@@ -67,6 +67,9 @@ export const componentsSlice = createSlice({
             state.selectedId = selectedId
             recordSnapshot(state, { type: 'init', lastId: selectedId, changeIndex: -1 })
         },
+        resetData: () => {
+            return {...INIT_STATE}
+        },
         setComponents: (state: ComponentsStateType, action: PayloadAction<Array<ComponentInfoType>>) => {
             state.componentList = action.payload
         },
@@ -261,6 +264,7 @@ export const {
     toNextComponent,
     changeComponentTitle,
     changeComponentPosition,
+    resetData,
     undo,
     redo
 } = componentsSlice.actions

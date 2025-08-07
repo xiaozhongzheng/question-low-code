@@ -11,7 +11,7 @@ import {
     changeComponentPosition,
     undo,
     redo,
-} from '@/store/componentsReducer'
+} from '@/store/componentsReducer2'
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
 const EditToolBar = () => {
 

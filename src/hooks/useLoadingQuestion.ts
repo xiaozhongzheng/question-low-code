@@ -7,6 +7,7 @@ import { initData, setComponents, setSelectedId } from '@/store/componentsReduce
 import { setPageInfo } from '@/store/pageInfoReducer';
 import type { QuestionSchema } from "@/components/Question";
 import { useParams } from "react-router-dom";
+import { resetData } from "@/store/componentsReducer2";
 /**
  * 根据id查询单个问卷数据
  * @returns data 问卷对象、error 错误信息、loading 网络请求时的加载状态
@@ -38,7 +39,7 @@ export const useLoadingQuestion = () => {
     }
     useEffect(() => {
         if (!question) return
-        const { componentList = [], pageInfo = {} } = question
+        const { componentList = [], pageInfo } = question
         let selectedId = ''
         if (componentList.length) {
             selectedId = componentList[0].fe_id
@@ -53,7 +54,7 @@ export const useLoadingQuestion = () => {
             dispatch(setPageInfo({ title: '问卷标题' }))
             return
         }
-
+        dispatch(resetData())
         getData(id)
     }, [id])
     return {

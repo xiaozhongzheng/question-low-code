@@ -73,7 +73,7 @@ const Fill: FC = () => {
             submitTime: new Date(),
         }
         answerList.push(data)
-        localStorage.setItem('answerList',JSON.stringify(answerList))
+        localStorage.setItem('answerList', JSON.stringify(answerList))
         message.success('提交成功！');
         navigate('/manage/list')
     }
@@ -111,7 +111,7 @@ const Fill: FC = () => {
                     >
                         {(componentList as ComponentInfoType[]).map((component) => {
                             const { fe_id, type, props } = component;
-
+                            const {title,placeholder,rules = []} = props
                             switch (type) {
                                 case 'questionTitle':
                                     return (
@@ -149,16 +149,19 @@ const Fill: FC = () => {
                                     return (
                                         <Form.Item
                                             key={fe_id}
-                                            label={props.title}
+                                            label={title}
                                             name={fe_id}
-                                            rules={[{
-                                                required: true,
-                                                message: '请输入内容'
-                                            }]}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: placeholder || '请输入内容'
+                                                },
+                                                ...rules
+                                            ]}
 
                                         >
                                             <Input
-                                                placeholder={props.placeholder || '请输入'}
+                                                placeholder={placeholder || '请输入'}
                                                 maxLength={100}
                                             />
                                         </Form.Item>
@@ -168,7 +171,7 @@ const Fill: FC = () => {
                                     return (
                                         <Form.Item
                                             key={fe_id}
-                                            label={props.title}
+                                            label={title}
                                             name={fe_id}
                                             rules={[{
                                                 required: true,
