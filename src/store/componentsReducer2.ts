@@ -21,12 +21,17 @@ export type CanvaStateType = {
     copyComponent?: ComponentInfoType | null // 用于保存复制时的组件
 }
 
+export type ComponentStateType = {
+    componentData?: ComponentInfoType, // 用于在画布中展示的组件列表
+    selectedId?: string,     // 当前选中组件的id
+}
+
 type OperationType = 'add' | 'delete' | 'update'
 
 type OperationRecord = {
     type: OperationType; // 操作类型
-    source?: CanvaStateType;  // 操作前的状态/来源组件
-    target?: CanvaStateType;  // 操作后的状态/目标组件
+    source?: ComponentStateType;  // 操作前的状态/来源组件
+    target?: ComponentStateType;  // 操作后的状态/目标组件
     changeIndex?: number;
 }
 
@@ -44,6 +49,7 @@ const INIT_STATE: ComponentsStateType = {
     currentIndex: -1, // 初始化为-1
     maxCount: 20
 }
+
 const recordSnapshot = (state: ComponentsStateType, operation: OperationRecord) => {
     const { operationStack, currentIndex, maxCount } = state;
 
@@ -83,20 +89,20 @@ export const componentsSlice = createSlice({
             if (state.currentIndex < 0) return;
 
             const operation = state.operationStack[state.currentIndex];
-            const { type, source, target, changeIndex } = operation;
-            const {component,selectedId} = source
+            const { type, source, changeIndex = 0 } = operation;
+            const { componentData, selectedId } = source as ComponentStateType
             switch (type) {
                 case 'add':
-                    state.componentList.splice(changeIndex!, 1);
+                    state.componentList.splice(changeIndex, 1);
                     break;
                 case 'delete':
-                    state.componentList.splice(changeIndex!, 0, component);
+                    state.componentList.splice(changeIndex, 0, componentData!);
                     break;
                 case 'update':
-                    state.componentList[changeIndex!] = component;
+                    state.componentList[changeIndex] = componentData!;
             }
 
-            state.selectedId = selectedId|| '';
+            state.selectedId = selectedId || '';
             state.currentIndex--;
         },
 
@@ -105,21 +111,21 @@ export const componentsSlice = createSlice({
 
             state.currentIndex++;
             const operation = state.operationStack[state.currentIndex];
-            const { type, source, target, changeIndex } = operation;
-
+            const { type, target, changeIndex = 0 } = operation;
+            const { componentData, selectedId } = target || {}
             switch (type) {
                 case 'add':
-                    state.componentList.splice(changeIndex!, 0, target!.component!);
+                    state.componentList.splice(changeIndex, 0, componentData!);
                     break;
                 case 'delete':
-                    state.componentList.splice(changeIndex!, 1);
+                    state.componentList.splice(changeIndex, 1);
                     break;
                 case 'update':
-                    state.componentList[changeIndex!] = target!.component!;
+                    state.componentList[changeIndex] = componentData!;
             }
 
-            state.selectedId = target?.id || '';
-        }
+            state.selectedId = selectedId || '';
+        },
         setSelectedId: (state: ComponentsStateType, action: PayloadAction<string>) => {
             state.selectedId = action.payload
         },
@@ -139,9 +145,13 @@ export const componentsSlice = createSlice({
             // recordSnapshot(state)
             const operation: OperationRecord = {
                 type: 'add',
-                lastId: selectedId,
-                nextId: component.fe_id,
-                componentData: component,
+                source: {
+                    selectedId,
+                },
+                target: {
+                    selectedId: component.fe_id,
+                    componentData: component,
+                },
                 changeIndex: componentList.findIndex(c => c.fe_id === component.fe_id)
             }
             recordSnapshot(state, operation)
@@ -156,11 +166,15 @@ export const componentsSlice = createSlice({
             }
             const operation: OperationRecord = {
                 type: 'update',
-                preComponentData,
-                componentData: component,
                 changeIndex: state.componentList.findIndex(c => c.fe_id === fe_id),
-                lastId: fe_id,
-                nextId: fe_id
+                source: {
+                    selectedId: fe_id,
+                    componentData: preComponentData,
+                },
+                target: {
+                    selectedId: fe_id,
+                    componentData: component,
+                }
             }
             recordSnapshot(state, operation)
         },
@@ -178,9 +192,13 @@ export const componentsSlice = createSlice({
             componentList.splice(index, 1)
             const operation: OperationRecord = {
                 type: 'delete',
-                componentData,
-                lastId: selectedId,
-                nextId: newSelected,
+                source: {
+                    componentData,
+                    selectedId,
+                },
+                target: {
+                    selectedId: newSelected,
+                },
                 changeIndex: index
             }
             recordSnapshot(state, operation)
