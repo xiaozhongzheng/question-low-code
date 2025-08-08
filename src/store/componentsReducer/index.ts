@@ -22,31 +22,31 @@ export type StateType = {
     copyComponent?: ComponentInfoType | null // 用于保存复制时的组件
 }
 export type ComponentsStateType = StateType & {
-    snapshotData: StateType[], // 快照历史记录，用于撤销和重做
-    snapshotIndex: number,  // 当前快照索引
-    maxSnapshotCount: number // 最大快照数量
+    stateChangeList: StateType[], // 快照历史记录，用于撤销和重做
+    changeIndex: number,  // 当前快照索引
+    maxCount: number // 最大快照数量
 }
 const INIT_STATE: ComponentsStateType = {
     componentList: [],
     selectedId: '',
     copyComponent: null,
-    snapshotData: [],
-    snapshotIndex: -1,
-    maxSnapshotCount: 20 // 默认保存20个 
+    stateChangeList: [],
+    changeIndex: -1,
+    maxCount: 20 // 默认保存20个 
 }
 // 记录快照
 const recordSnapshot = (state: ComponentsStateType) => {
-    const { componentList, snapshotData, maxSnapshotCount, selectedId, copyComponent, snapshotIndex } = state
-    if(snapshotIndex < snapshotData.length - 1){
-        snapshotData.splice(snapshotIndex+1,snapshotData.length)
+    const { componentList, stateChangeList, maxCount, selectedId, copyComponent, changeIndex } = state
+    if(changeIndex < stateChangeList.length - 1){
+        stateChangeList.splice(changeIndex+1,stateChangeList.length)
     }
     
-    snapshotData.push({ componentList, selectedId, copyComponent })
-    state.snapshotIndex++
-    if (state.snapshotIndex > maxSnapshotCount) {
+    stateChangeList.push({ componentList, selectedId, copyComponent })
+    state.changeIndex++
+    if (state.changeIndex > maxCount) {
         // 保存的数据大于快照的数量，应该从头部删除一个数据
-        snapshotData.shift()
-        state.snapshotIndex--
+        stateChangeList.shift()
+        state.changeIndex--
     }
 }
 export const componentsSlice = createSlice({
@@ -65,31 +65,31 @@ export const componentsSlice = createSlice({
         },
         // recordSnapshot: (state: ComponentsStateType) => {
         //     // 记录快照
-        //     const { componentList, snapshotData, maxSnapshotCount, selectedId,copyComponent } = state
-        //     snapshotData.push({ componentList, selectedId,copyComponent })
-        //     state.snapshotIndex++
-        //     if (state.snapshotIndex > maxSnapshotCount) {
+        //     const { componentList, stateChangeList, maxCount, selectedId,copyComponent } = state
+        //     stateChangeList.push({ componentList, selectedId,copyComponent })
+        //     state.changeIndex++
+        //     if (state.changeIndex > maxCount) {
         //         // 保存的数据大于快照的数量，应该从头部删除一个数据
-        //         snapshotData.shift()
-        //         state.snapshotIndex--
+        //         stateChangeList.shift()
+        //         state.changeIndex--
         //     }
         // },
         undo: (state: ComponentsStateType) => {
-            const { snapshotIndex, snapshotData } = state  // 执行撤销操作
-            if (snapshotIndex <= 0) return // 当快照只剩下一个元素
+            const { changeIndex, stateChangeList } = state  // 执行撤销操作
+            if (changeIndex <= 0) return // 当快照只剩下一个元素
             return {
                 ...state,
-                snapshotIndex: snapshotIndex - 1,
-                ...snapshotData[snapshotIndex - 1]
+                changeIndex: changeIndex - 1,
+                ...stateChangeList[changeIndex - 1]
             }
         },
         redo: (state: ComponentsStateType) => { // 执行重做操作
-            const { snapshotIndex, snapshotData } = state  // 执行撤销操作
-            if (snapshotIndex >= snapshotData.length - 1) return
+            const { changeIndex, stateChangeList } = state  // 执行撤销操作
+            if (changeIndex >= stateChangeList.length - 1) return
             return {
                 ...state,
-                snapshotIndex: snapshotIndex + 1,
-                ...snapshotData[snapshotIndex + 1]
+                changeIndex: changeIndex + 1,
+                ...stateChangeList[changeIndex + 1]
             }
         },
         setSelectedId: (state: ComponentsStateType, action: PayloadAction<string>) => {
