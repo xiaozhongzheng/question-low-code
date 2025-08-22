@@ -58,7 +58,7 @@ export const componentsSlice = createSlice({
             const { componentList, selectedId } = action.payload
             state.componentList = componentList
             state.selectedId = selectedId
-            recordSnapshot(state)
+            // recordSnapshot(state)
         },
         setComponents: (state: ComponentsStateType, action: PayloadAction<Array<ComponentInfoType>>) => {
             state.componentList = action.payload
@@ -76,7 +76,7 @@ export const componentsSlice = createSlice({
         // },
         undo: (state: ComponentsStateType) => {
             const { changeIndex, stateChangeList } = state  // 执行撤销操作
-            if (changeIndex <= 0) return // 当快照只剩下一个元素
+            if (changeIndex < 0) return // 当快照只剩下一个元素
             return {
                 ...state,
                 changeIndex: changeIndex - 1,
